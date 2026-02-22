@@ -1,0 +1,33 @@
+{
+  "name": "civicos",
+  "version": "1.0.0",
+  "description": "Vibe code a government.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FogSift/CivicOS.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FogSift/CivicOS/issues"
+  },
+  "homepage": "https://github.com/FogSift/CivicOS#readme",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.2.0",
+    "@vitejs/plugin-react": "^5.1.4",
+    "tailwindcss": "^4.2.0",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "lucide-react": "^0.575.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
