@@ -1,2 +1,109 @@
 # CivicOS
-Vibe code a government.
+
+> Vibe code a government.
+
+CivicOS is an open source civic infrastructure layer for organizations that route public resources — grants, contracts, donations, and community capital — through transparent, collaborative workflows.
+
+The interface is intentionally retro. The mission is not.
+
+**Current release:** v0.0.1 — Super Early Bird Special · `alpha`
+
+---
+
+## What It Does
+
+CivicOS gives civic orgs, nonprofits, and community groups a shared workspace to:
+
+| Module | Status | Description |
+| --- | --- | --- |
+| **The Radar** | ✅ Live | Discovery feed — surface funding leads, build consensus via voting |
+| **Active Pipeline** | ✅ Live | Kanban board — move leads from Discovery → Vetting → Drafting → Under Review |
+| **Asset Vault** | ✅ Live | Store org documents — narratives, compliance, team bios |
+| **Governance Rules** | 🔒 Planned | On-chain or rule-based decision frameworks |
+| **Treasury Escrow** | 🔒 Planned | Multi-sig fund routing and disbursement |
+| **Node Map** | 🔒 Planned | Peer network visualization across orgs |
+
+---
+
+## Quickstart
+
+```bash
+git clone https://github.com/FogSift/CivicOS.git
+cd CivicOS
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) and click **Enter Demo Workspace**.
+
+---
+
+## Tech Stack
+
+- [React 19](https://react.dev) — UI
+- [Vite 7](https://vite.dev) — build tooling
+- [Tailwind CSS v4](https://tailwindcss.com) — styling
+- [lucide-react](https://lucide.dev) — icons
+
+No backend. No database. Pure local state for now — persistence and networking are on the roadmap.
+
+---
+
+## Project Structure
+
+```text
+CivicOS/
+├── src/
+│   ├── App.jsx          # Root component — all views
+│   ├── version.js       # Release metadata (imports version from package.json)
+│   ├── main.jsx         # React entry point
+│   └── index.css        # Tailwind base
+├── scripts/
+│   └── new-file.js      # Scaffold new files with stable @fileId UUID
+├── .github/
+│   ├── CODEOWNERS
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── ISSUE_TEMPLATE/
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+└── package.json         # Single source of truth for version number
+```
+
+---
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) first — especially the sections on **@fileId** (every file has a permanent UUID) and the **versioning workflow**.
+
+Short version:
+
+```bash
+# New file
+node scripts/new-file.js src/components/MyComponent.jsx "What it does"
+
+# Release
+npm version patch        # bumps package.json + creates git tag
+# update src/version.js and CHANGELOG.md
+git push origin main --tags
+gh release create v{version}
+```
+
+Both human and AI contributors are welcome. The rules are the same for everyone.
+
+---
+
+## Versioning
+
+`package.json` is the single source of truth for the version number. See [CHANGELOG.md](CHANGELOG.md) for the full history.
+
+| Bump | When |
+| --- | --- |
+| `patch` | Bug fix, copy tweak, minor polish |
+| `minor` | New feature, unlock a module |
+| `major` | Breaking change, architectural shift |
+
+---
+
+## License
+
+ISC © [FogSift](https://github.com/FogSift)
