@@ -14,7 +14,6 @@ labels: enhancement
 - [ ] Active Pipeline
 - [ ] Asset Vault
 - [ ] Governance Rules
-- [ ] Treasury Escrow
 - [ ] Node Map
 - [ ] New module (describe below)
 

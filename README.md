@@ -19,8 +19,7 @@ CivicOS gives civic orgs, nonprofits, and community groups a shared workspace to
 | **The Radar** | ✅ Live | Discovery feed — surface funding leads, build consensus via voting |
 | **Active Pipeline** | ✅ Live | Kanban board — move leads from Discovery → Vetting → Drafting → Under Review |
 | **Asset Vault** | ✅ Live | Store org documents — narratives, compliance, team bios |
-| **Governance Rules** | 🔒 Planned | On-chain or rule-based decision frameworks |
-| **Treasury Escrow** | 🔒 Planned | Multi-sig fund routing and disbursement |
+| **Governance Rules** | 🔒 Planned | Decision frameworks for multi-stakeholder orgs |
 | **Node Map** | 🔒 Planned | Peer network visualization across orgs |
 
 ---

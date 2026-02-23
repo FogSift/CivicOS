@@ -24,8 +24,6 @@ import {
   X,
   ShieldCheck,
   Monitor,
-  Lock,
-  Network
 } from 'lucide-react';
 
 const initialResources = [
@@ -362,11 +360,6 @@ export default function App() {
             </button>
           </div>
           <div className="flex items-center space-x-3 text-black">
-            <button disabled className="flex items-center space-x-1 border border-transparent px-2 py-0.5 rounded text-[#808080] cursor-not-allowed" title="Planned: Sync to CivicOS Network">
-              <Network size={14} className="text-[#808080]" />
-              <span>Sync Network</span>
-            </button>
-            <div className="w-px h-4 bg-[#aca899]"></div>
             <button
               onClick={() => setIsAddModalOpen(true)}
               className="flex items-center space-x-1 hover:bg-[#c1d2ee] border border-transparent hover:border-[#316ac5] px-2 py-0.5 rounded"
@@ -416,28 +409,6 @@ export default function App() {
                     >
                       <Icon size={14} className={`mr-2 ${activeTab === id ? 'text-black' : 'text-[#0054e3]'}`} />
                       {label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Locked Network Modules */}
-            <div className="mb-4 bg-[#ece9d8] border border-[#ffffff] rounded-sm overflow-hidden shadow-sm">
-              <div className="bg-gradient-to-r from-[#e0e0e0] to-[#d0d0d0] px-3 py-1.5 cursor-default border-b border-[#aca899]">
-                <span className="text-[#808080] font-bold text-xs tracking-wide shadow-[1px_1px_0_white]">Network Modules</span>
-              </div>
-              <ul className="p-2 space-y-1 bg-[#f5f5f5] text-xs">
-                {[
-                  { label: 'Governance Rules', Icon: ShieldCheck },
-                  { label: 'Treasury Escrow', Icon: DollarSign },
-                  { label: 'Node Map', Icon: Network },
-                ].map(({ label, Icon }) => (
-                  <li key={label}>
-                    <button disabled className="w-full flex items-center text-left px-2 py-1.5 text-[#808080] cursor-not-allowed">
-                      <Icon size={14} className="mr-2 text-[#808080]" />
-                      <span className="shadow-[1px_1px_0_white] flex-1">{label}</span>
-                      <Lock size={10} className="text-[#808080]" />
                     </button>
                   </li>
                 ))}
