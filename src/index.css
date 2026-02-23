@@ -1,7 +1,15 @@
 /*
  * @fileId 2be32547-cb22-4b74-b89e-aeaeee2d56e2
  * @module CivicOS/index.css
- * @description Global styles — Tailwind base import.
+ * @description Global styles.
+ *
+ * Layer order matters:
+ *   1. Tailwind — layout, spacing, colors
+ *   2. XP.css  — component chrome for new components (buttons, inputs, windows)
+ *
+ * Rule: don't mix both on the same element. Existing Tailwind components stay
+ * as-is. XP.css classes are for new components only. See CONTRIBUTING.md.
  */
 
 @import "tailwindcss";
+@import "xp.css/dist/XP.css";

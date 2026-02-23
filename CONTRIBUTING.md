@@ -10,9 +10,10 @@ CivicOS is built for both human and AI contributors. These guidelines keep the c
 
 1. [File Identity — @fileId](#file-identity)
 2. [Versioning](#versioning)
-3. [Branch & PR Workflow](#branch--pr-workflow)
-4. [Commit Style](#commit-style)
-5. [AI Contributor Notes](#ai-contributor-notes)
+3. [Styling Guide](#styling-guide)
+4. [Branch & PR Workflow](#branch--pr-workflow)
+5. [Commit Style](#commit-style)
+6. [AI Contributor Notes](#ai-contributor-notes)
 
 ---
 
@@ -85,6 +86,29 @@ git push origin main --tags
 # 6. Create GitHub release
 gh release create vX.Y.Z --title "vX.Y.Z — Title" --notes "..."
 ```
+
+---
+
+## Styling Guide
+
+CivicOS uses two CSS systems. Pick **one per component** — don't mix them on the same element.
+
+| System | Use for | How |
+| --- | --- | --- |
+| **Tailwind CSS** | Layout, spacing, grid, flex, colors | Utility classes (`flex`, `p-4`, `text-sm`, etc.) |
+| **XP.css** | Component chrome on **new** components | Semantic HTML + XP.css class names (`.window`, `.field-row`, etc.) |
+
+### Styling Rules
+
+- **Existing components** (AppChrome, TaskPane, GrantCard, etc.) use Tailwind. Leave them alone.
+- **New components** should use XP.css for chrome (buttons, inputs, dialogs, progress bars).
+- Tailwind still handles layout and spacing even inside XP.css components.
+- Reference: [XP.css docs](https://botoxparty.github.io/XP.css/)
+
+### CSS bundle note
+
+XP.css ships the MS Sans Serif and Perfect DOS VGA fonts (~70KB gzipped).
+This is expected — it's what makes the aesthetic authentic.
 
 ---
 

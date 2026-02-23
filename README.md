@@ -41,10 +41,18 @@ Open [http://localhost:5173](http://localhost:5173) and click **Enter Demo Works
 
 - [React 19](https://react.dev) — UI
 - [Vite 7](https://vite.dev) — build tooling
-- [Tailwind CSS v4](https://tailwindcss.com) — styling
+- [Tailwind CSS v4](https://tailwindcss.com) — layout and spacing
+- [XP.css](https://botoxparty.github.io/XP.css/) — component chrome for new components
 - [lucide-react](https://lucide.dev) — icons
 
 No backend. No database. Pure local state for now — persistence and networking are on the roadmap.
+
+### Reference Codebases
+
+These are not dependencies — study them for patterns and inspiration:
+
+- [win32.run](https://github.com/ducbao414/win32.run) — full XP OS simulation in Svelte
+- [RebornXP](https://github.com/d0ngle8k/RebornXP) — complete XP desktop environment in browser
 
 ---
 
