@@ -13,3 +13,100 @@
 
 @import "tailwindcss";
 @import "xp.css/dist/XP.css";
+
+/* === CivicOS Theme Variables ===
+   Runtime-switchable via data-theme on <html>.
+   Components reference via bg-[var(--color-x)] arbitrary-value syntax.
+   Do NOT use Tailwind @theme {} — that is build-time only and cannot be toggled at runtime.
+*/
+
+/* --- Classic XP (default) --- */
+:root {
+  --color-titlebar-from:    #0054e3;
+  --color-titlebar-via:     #2f8cf3;
+  --color-titlebar-to:      #0054e3;
+  --color-titlebar-text:    #ffffff;
+
+  --color-desktop-bg:       #3a6ea5;
+  --color-window-bg:        #ece9d8;
+  --color-window-border:    #0054e3;
+  --color-panel-bg:         #ffffff;
+
+  --color-sidebar-from:     #7ba2e7;
+  --color-sidebar-to:       #638ce0;
+  --color-sidebar-section:  #d6dff7;
+
+  --color-border-main:      #aca899;
+  --color-border-inner:     #ffffff;
+
+  --color-text-primary:     #000000;
+  --color-text-muted:       #666666;
+  --color-text-link:        #0033cc;
+
+  --color-accent-primary:   #0054e3;
+  --color-accent-selected:  #316ac5;
+  --color-accent-hover-bg:  #c1d2ee;
+
+  --color-success:          #3aa03a;
+  --color-error-from:       #e81123;
+  --color-error-to:         #c2101e;
+
+  --color-btn-from:         #f3f3f3;
+  --color-btn-to:           #ebebeb;
+
+  --color-infobar-bg:       #ffffe1;
+  --color-input-border:     #7f9db9;
+}
+
+/* --- Creme-XP (warm graphite) --- */
+:root[data-theme="creme"] {
+  --color-titlebar-from:    #354251;
+  --color-titlebar-via:     #2D3A47;
+  --color-titlebar-to:      #222B36;
+  --color-titlebar-text:    #E2E8F0;
+
+  --color-desktop-bg:       #404D59;
+  --color-window-bg:        #F5F3E9;
+  --color-window-border:    #354251;
+  --color-panel-bg:         #FCFBF8;
+
+  --color-sidebar-from:     #F5F3E9;
+  --color-sidebar-to:       #F5F3E9;
+  --color-sidebar-section:  #EBE8DD;
+
+  --color-border-main:      #C2BFB5;
+  --color-border-inner:     #ffffff;
+
+  --color-text-primary:     #2C333A;
+  --color-text-muted:       #626C77;
+  --color-text-link:        #354251;
+
+  --color-accent-primary:   #5C80A6;
+  --color-accent-selected:  #3B5470;
+  --color-accent-hover-bg:  #D4DCEB;
+
+  --color-success:          #7A9D84;
+  --color-error-from:       #C27A62;
+  --color-error-to:         #A85C44;
+
+  --color-btn-from:         #FFFFFF;
+  --color-btn-to:           #F0EDE5;
+
+  --color-infobar-bg:       #FDE8E1;
+  --color-input-border:     #A8B4BE;
+}
+
+/* === Global Interaction Enhancements (both themes) === */
+
+.card-lift {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.btn-press:active {
+  transform: translateY(1px);
+}

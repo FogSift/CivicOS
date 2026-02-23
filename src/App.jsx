@@ -7,11 +7,13 @@
 
 import React, { useState } from 'react';
 import { useResources } from './hooks/useResources.js';
+import { useTheme }     from './hooks/useTheme.js';
 import AuthScreen    from './components/AuthScreen.jsx';
 import AppChrome     from './components/AppChrome.jsx';
 import TaskPane      from './components/TaskPane.jsx';
 import InfoBar       from './components/InfoBar.jsx';
 import AddNodeModal  from './components/AddNodeModal.jsx';
+import StatusBar     from './components/StatusBar.jsx';
 import PlazaView     from './views/PlazaView.jsx';
 import BuilderView   from './views/BuilderView.jsx';
 import VaultView     from './views/VaultView.jsx';
@@ -22,6 +24,8 @@ export default function App() {
   const [showGuide, setShowGuide]             = useState(true);
   const [isAddModalOpen, setIsAddModalOpen]   = useState(false);
 
+  // Hooks must be called unconditionally (before any early return)
+  const { theme, setTheme } = useTheme();
   const { resources, handleVote, commitLead, discardLead, handleSaveNode } = useResources();
 
   const discoveryCount = resources.filter(r => r.status === 'discovery').length;
@@ -31,7 +35,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen bg-[#3a6ea5] p-2 md:p-6 font-sans selection:bg-[#316ac5] selection:text-white">
+    <div className="flex h-screen bg-[var(--color-desktop-bg)] p-2 md:p-6 font-sans selection:bg-[var(--color-accent-selected)] selection:text-white">
 
       {isAddModalOpen && (
         <AddNodeModal
@@ -44,13 +48,15 @@ export default function App() {
       )}
 
       {/* Application Window */}
-      <div className="w-full h-full flex flex-col bg-[#ece9d8] border border-[#0054e3] rounded-t-xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+      <div className="w-full h-full flex flex-col bg-[var(--color-window-bg)] border border-[var(--color-window-border)] rounded-t-xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
 
         <AppChrome
           activeTab={activeTab}
           onLogOff={() => setIsAuthenticated(false)}
           onAddLead={() => setIsAddModalOpen(true)}
           onToggleGuide={() => setShowGuide(v => !v)}
+          theme={theme}
+          setTheme={setTheme}
         />
 
         <div className="flex-1 flex overflow-hidden">
@@ -60,7 +66,7 @@ export default function App() {
             discoveryCount={discoveryCount}
           />
 
-          <main className="flex-1 bg-white overflow-y-auto p-4 md:p-6 text-black relative shadow-[inset_1px_1px_3px_rgba(0,0,0,0.1)]">
+          <main className="flex-1 bg-[var(--color-panel-bg)] overflow-y-auto p-4 md:p-6 text-[var(--color-text-primary)] relative shadow-[inset_1px_1px_3px_rgba(0,0,0,0.1)]">
             {showGuide && <InfoBar onDismiss={() => setShowGuide(false)} />}
 
             {activeTab === 'plaza' && (
@@ -80,6 +86,8 @@ export default function App() {
             )}
           </main>
         </div>
+
+        <StatusBar nodeCount={resources.length} />
       </div>
     </div>
   );

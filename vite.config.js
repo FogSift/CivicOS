@@ -23,4 +23,7 @@ export default defineConfig({
     // e.g.  <span>{__APP_VERSION__}</span>
     __APP_VERSION__: JSON.stringify(pkg.version),
   },
+  build: {
+    cssMinify: 'esbuild',
+  },
 });
