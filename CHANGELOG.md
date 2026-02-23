@@ -9,6 +9,21 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- **Decomposed monolithic App.jsx** into focused components and views.
+  App.jsx is now a thin orchestrator (~70 lines).
+- **Renamed modules** to canonical product vocabulary:
+  - The Radar → **The Plaza** (tab id: `plaza`)
+  - Active Pipeline → **The Builder** (tab id: `builder`)
+  - Asset Vault → **The Vault**
+  - "Add Node" → **"Add Lead"**
+- **New file structure**: `src/hooks/`, `src/components/`, `src/views/`
+- All resource state and handlers extracted to `src/hooks/useResources.js`
+- Seed data and constants extracted to `src/constants.js`
+- Component naming: `XPChrome` → `AppChrome`, `XPSidebar` → `TaskPane`
+  (naming by function, not aesthetic inspiration)
+
 ### Removed
 
 - Treasury Escrow cut from roadmap — no blockchain, no token economy, no escrow.

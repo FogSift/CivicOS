@@ -8,13 +8,13 @@ labels: enhancement
 
 ## Proposed solution
 
-## Which Network Module does this belong to?
+## Which module does this belong to?
 
-- [ ] Discovery Feed / Radar
-- [ ] Active Pipeline
-- [ ] Asset Vault
-- [ ] Governance Rules
-- [ ] Node Map
+- [ ] The Plaza (discovery feed)
+- [ ] The Builder (kanban pipeline)
+- [ ] The Vault (document storage)
+- [ ] Governance Rules (planned)
+- [ ] Node Map (planned)
 - [ ] New module (describe below)
 
 ## Additional context

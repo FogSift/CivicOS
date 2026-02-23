@@ -16,9 +16,9 @@ CivicOS gives civic orgs, nonprofits, and community groups a shared workspace to
 
 | Module | Status | Description |
 | --- | --- | --- |
-| **The Radar** | ✅ Live | Discovery feed — surface funding leads, build consensus via voting |
-| **Active Pipeline** | ✅ Live | Kanban board — move leads from Discovery → Vetting → Drafting → Under Review |
-| **Asset Vault** | ✅ Live | Store org documents — narratives, compliance, team bios |
+| **The Plaza** | ✅ Live | Discovery feed — surface funding leads, build consensus via voting |
+| **The Builder** | ✅ Live | Kanban board — track leads from Sniff Test → Drafting → Under Review |
+| **The Vault** | ✅ Live | Store org documents — narratives, compliance, team bios |
 | **Governance Rules** | 🔒 Planned | Decision frameworks for multi-stakeholder orgs |
 | **Node Map** | 🔒 Planned | Peer network visualization across orgs |
 
@@ -53,19 +53,31 @@ No backend. No database. Pure local state for now — persistence and networking
 ```text
 CivicOS/
 ├── src/
-│   ├── App.jsx          # Root component — all views
-│   ├── version.js       # Release metadata (imports version from package.json)
-│   ├── main.jsx         # React entry point
-│   └── index.css        # Tailwind base
+│   ├── App.jsx              # Root orchestrator — state + routing only
+│   ├── constants.js         # Seed data, grant types, pipeline columns
+│   ├── version.js           # Release metadata (imports version from package.json)
+│   ├── main.jsx             # React entry point
+│   ├── index.css            # Tailwind base
+│   ├── hooks/
+│   │   └── useResources.js  # All resource state + handlers
+│   ├── components/
+│   │   ├── AuthScreen.jsx   # Login screen
+│   │   ├── AppChrome.jsx    # Title bar, toolbar, address bar
+│   │   ├── TaskPane.jsx     # Left navigation sidebar
+│   │   ├── InfoBar.jsx      # Dismissible guide bar
+│   │   ├── AddNodeModal.jsx # Add new lead modal
+│   │   ├── GrantCard.jsx    # Single lead card (used in PlazaView)
+│   │   └── KanbanColumn.jsx # Single kanban column (used in BuilderView)
+│   └── views/
+│       ├── PlazaView.jsx    # The Plaza — discovery feed
+│       ├── BuilderView.jsx  # The Builder — kanban board
+│       └── VaultView.jsx    # The Vault — document storage
 ├── scripts/
-│   └── new-file.js      # Scaffold new files with stable @fileId UUID
+│   └── new-file.js          # Scaffold new files with stable @fileId UUID
 ├── .github/
-│   ├── CODEOWNERS
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── ISSUE_TEMPLATE/
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
-└── package.json         # Single source of truth for version number
+└── package.json             # Single source of truth for version number
 ```
 
 ---
