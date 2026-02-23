@@ -1,1 +1,7 @@
+/*
+ * @fileId 2be32547-cb22-4b74-b89e-aeaeee2d56e2
+ * @module CivicOS/index.css
+ * @description Global styles — Tailwind base import.
+ */
+
 @import "tailwindcss";

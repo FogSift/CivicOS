@@ -1,3 +1,10 @@
+/**
+ * @fileId d0b9371e-cfe6-4e43-b1d5-ff04bd840a86
+ * @module CivicOS/App
+ * @description Root application component — XP-themed grant discovery dashboard.
+ *              Login screen, sidebar nav, Discovery Feed, Pipeline kanban, Asset Vault.
+ */
+
 import React, { useState } from 'react';
 import {
   Radar,
