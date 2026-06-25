@@ -17,25 +17,33 @@ const VAULT_ITEMS = [
 export default function VaultView() {
   return (
     <div className="max-w-4xl space-y-4">
-      <div className="border-b border-[#aca899] pb-2 mb-4">
-        <h2 className="text-xl font-bold text-black flex items-center">
-          <Database size={20} className="mr-2 text-[#0054e3]" />
+      <div className="pb-2 mb-4" style={{ borderBottom: '1px solid var(--color-border-main)' }}>
+        <p className="text-xl font-bold flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+          <Database size={20} className="mr-2" style={{ color: 'var(--color-accent-primary)' }} />
           The Vault
-        </h2>
-        <p className="text-sm text-[#666]">Standard narratives and compliance documents.</p>
+        </p>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Standard narratives and compliance documents.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {VAULT_ITEMS.map(({ label, Icon }) => (
           <button
             key={label}
-            className="flex flex-col items-center justify-center p-4 hover:bg-[#ebf3fd] border border-transparent hover:border-[#316ac5] rounded-sm group focus:outline-none focus:bg-[#c1d2ee]"
+            className="flex flex-col items-center justify-center p-4 border border-transparent group focus:outline-none"
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-accent-hover-bg)'; e.currentTarget.style.borderColor = 'var(--color-accent-selected)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = 'transparent'; }}
           >
-            <div className="w-16 h-16 mb-2 bg-gradient-to-b from-[#ffdb58] to-[#e6b800] rounded-sm relative shadow-sm border border-[#cc9900] flex items-center justify-center">
-              <div className="absolute top-0 left-0 w-1/3 h-2 bg-[#ffdb58] border-t border-l border-r border-[#cc9900] -mt-2 rounded-t-sm"></div>
-              <Icon size={24} className="text-[#997300]" />
+            {/* XP folder icon */}
+            <div className="w-16 h-16 mb-2 relative flex items-center justify-center"
+              style={{ background: 'linear-gradient(180deg, #ffdb58, #e6b800)', border: '1px solid #cc9900', borderRadius: '2px', boxShadow: '1px 1px 3px rgba(0,0,0,0.2)' }}
+            >
+              <div className="absolute top-0 left-0 w-5 h-2" style={{ background: '#ffdb58', border: '1px solid #cc9900', borderBottom: 'none', borderRadius: '2px 2px 0 0', marginTop: '-8px' }} />
+              <Icon size={24} style={{ color: '#7a5c00' }} />
             </div>
-            <span className="text-sm text-black group-hover:bg-[#316ac5] group-hover:text-white px-1">
+            <span
+              className="text-sm px-1"
+              style={{ color: 'var(--color-text-primary)' }}
+            >
               {label}
             </span>
           </button>

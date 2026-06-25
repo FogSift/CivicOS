@@ -13,12 +13,12 @@ import { PipelineColumns } from '../constants.js';
 export default function BuilderView({ resources }) {
   return (
     <div className="h-full flex flex-col">
-      <div className="border-b border-[#aca899] pb-2 mb-4 shrink-0">
-        <h2 className="text-xl font-bold text-black flex items-center">
-          <KanbanSquare size={20} className="mr-2 text-[#0054e3]" />
+      <div className="pb-2 mb-4 shrink-0" style={{ borderBottom: '1px solid var(--color-border-main)' }}>
+        <p className="text-xl font-bold flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+          <KanbanSquare size={20} className="mr-2" style={{ color: 'var(--color-accent-primary)' }} />
           The Builder
-        </h2>
-        <p className="text-sm text-[#666]">Track committed leads through to submission.</p>
+        </p>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Track committed leads through to submission.</p>
       </div>
 
       <div className="flex-1 flex space-x-4 overflow-x-auto pb-4 items-start">

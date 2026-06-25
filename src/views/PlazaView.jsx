@@ -16,12 +16,12 @@ export default function PlazaView({ resources, onVote, onCommit, onDiscard, onAd
 
   return (
     <div className="max-w-4xl space-y-4">
-      <div className="border-b border-[#aca899] pb-2 mb-4">
-        <h2 className="text-xl font-bold text-black flex items-center">
-          <Radar size={20} className="mr-2 text-[#0054e3]" />
+      <div className="pb-2 mb-4" style={{ borderBottom: '1px solid var(--color-border-main)' }}>
+        <p className="text-xl font-bold flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+          <Radar size={20} className="mr-2" style={{ color: 'var(--color-accent-primary)' }} />
           The Plaza
-        </h2>
-        <p className="text-sm text-[#666]">Surface leads, build consensus.</p>
+        </p>
+        <p className="text-sm" style={{ color: 'var(--color-text-muted)' }}>Surface leads, build consensus.</p>
       </div>
 
       {leads.length === 0 ? (

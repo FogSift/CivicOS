@@ -96,6 +96,19 @@
   --color-input-border:     #A8B4BE;
 }
 
+/* === XP.css Overrides — theme-variable title bar ===
+   XP.css hardcodes the title-bar gradient. Override with higher specificity
+   so both Classic XP and Creme-XP themes work correctly.
+*/
+:root .title-bar {
+  background: linear-gradient(180deg,
+    var(--color-titlebar-from) 0%,
+    var(--color-titlebar-via) 50%,
+    var(--color-titlebar-to) 100%
+  );
+  color: var(--color-titlebar-text);
+}
+
 /* === Global Interaction Enhancements (both themes) === */
 
 .card-lift {

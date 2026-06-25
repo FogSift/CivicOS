@@ -6,31 +6,35 @@
  */
 
 import React from 'react';
-import { Radar, KanbanSquare, Database } from 'lucide-react';
+import { Radar, KanbanSquare, Database, AppWindow } from 'lucide-react';
 
 const NAV_ITEMS = [
   { id: 'plaza',   label: 'The Plaza',   Icon: Radar },
   { id: 'builder', label: 'The Builder', Icon: KanbanSquare },
   { id: 'vault',   label: 'The Vault',   Icon: Database },
+  { id: 'ops',     label: 'Ops Center',  Icon: AppWindow },
 ];
 
 export default function TaskPane({ activeTab, onTabChange, discoveryCount }) {
   return (
-    <div className="w-56 bg-gradient-to-b from-[#7ba2e7] to-[#638ce0] border-r border-[#aca899] p-3 flex flex-col overflow-y-auto overflow-x-hidden shrink-0">
-
+    <div
+      className="w-56 border-r p-3 flex flex-col overflow-y-auto overflow-x-hidden shrink-0"
+      style={{ background: 'linear-gradient(180deg, var(--color-sidebar-from) 0%, var(--color-sidebar-to) 100%)', borderColor: 'var(--color-border-main)' }}
+    >
       {/* Navigation */}
-      <div className="mb-4 bg-white border border-[#ffffff] rounded-sm overflow-hidden shadow-sm">
-        <div className="bg-gradient-to-r from-[#f0f0f0] to-[#e0e0e0] px-3 py-1.5 cursor-default">
-          <span className="text-[#0033cc] font-bold text-xs tracking-wide">System Tasks</span>
+      <div className="mb-4 rounded-sm overflow-hidden shadow-sm" style={{ border: '1px solid var(--color-border-inner)', background: 'var(--color-panel-bg)' }}>
+        <div className="px-3 py-1.5 cursor-default" style={{ background: 'linear-gradient(to right, #f0f0f0, #e0e0e0)' }}>
+          <span className="font-bold text-xs tracking-wide" style={{ color: 'var(--color-text-link)' }}>System Tasks</span>
         </div>
-        <ul className="p-2 space-y-1 bg-[#d6dff7] text-xs">
+        <ul className="p-2 space-y-1 text-xs" style={{ background: 'var(--color-sidebar-section)' }}>
           {NAV_ITEMS.map(({ id, label, Icon }) => (
             <li key={id}>
               <button
                 onClick={() => onTabChange(id)}
-                className={`w-full flex items-center text-left px-2 py-1.5 hover:underline ${activeTab === id ? 'text-black font-bold' : 'text-[#0033cc]'}`}
+                className="w-full flex items-center text-left px-2 py-1.5 hover:underline"
+                style={{ color: activeTab === id ? 'var(--color-text-primary)' : 'var(--color-text-link)', fontWeight: activeTab === id ? '700' : '400' }}
               >
-                <Icon size={14} className={`mr-2 ${activeTab === id ? 'text-black' : 'text-[#0054e3]'}`} />
+                <Icon size={14} className="mr-2" style={{ color: activeTab === id ? 'var(--color-text-primary)' : 'var(--color-accent-primary)' }} />
                 {label}
               </button>
             </li>
@@ -39,15 +43,15 @@ export default function TaskPane({ activeTab, onTabChange, discoveryCount }) {
       </div>
 
       {/* Details */}
-      <div className="mb-4 bg-white border border-[#ffffff] rounded-sm overflow-hidden shadow-sm">
-        <div className="bg-gradient-to-r from-[#f0f0f0] to-[#e0e0e0] px-3 py-1.5 cursor-default">
-          <span className="text-[#0033cc] font-bold text-xs tracking-wide">Details</span>
+      <div className="mb-4 rounded-sm overflow-hidden shadow-sm" style={{ border: '1px solid var(--color-border-inner)', background: 'var(--color-panel-bg)' }}>
+        <div className="px-3 py-1.5 cursor-default" style={{ background: 'linear-gradient(to right, #f0f0f0, #e0e0e0)' }}>
+          <span className="font-bold text-xs tracking-wide" style={{ color: 'var(--color-text-link)' }}>Details</span>
         </div>
-        <div className="p-3 bg-[#d6dff7] text-xs text-black space-y-2">
-          <h4 className="font-bold">Active Signals</h4>
+        <div className="p-3 text-xs space-y-2" style={{ background: 'var(--color-sidebar-section)', color: 'var(--color-text-primary)' }}>
+          <p className="font-bold">Active Signals</p>
           <p>{discoveryCount} node{discoveryCount !== 1 ? 's' : ''} await consensus.</p>
-          <div className="border-t border-[#aca899] pt-2 mt-2">
-            <p className="text-[#666] italic">System operates strictly as is.</p>
+          <div className="pt-2 mt-2" style={{ borderTop: '1px solid var(--color-border-main)' }}>
+            <p style={{ color: 'var(--color-text-muted)', fontStyle: 'italic' }}>System operates strictly as is.</p>
           </div>
         </div>
       </div>

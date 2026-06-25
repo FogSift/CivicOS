@@ -1,94 +1,126 @@
 /**
  * @fileId d0b9371e-cfe6-4e43-b1d5-ff04bd840a86
  * @module CivicOS/App
- * @description Root orchestrator — manages top-level state and routes between views.
- *              All UI lives in components/ and views/. Keep this file thin.
+ * @description Root orchestrator — full browser OS built on XP.css chrome.
+ *              Auth → Desktop with draggable windows.
  */
 
-import React, { useState } from 'react';
-import { useResources } from './hooks/useResources.js';
-import { useTheme }     from './hooks/useTheme.js';
-import AuthScreen    from './components/AuthScreen.jsx';
-import AppChrome     from './components/AppChrome.jsx';
-import TaskPane      from './components/TaskPane.jsx';
-import InfoBar       from './components/InfoBar.jsx';
-import AddNodeModal  from './components/AddNodeModal.jsx';
-import StatusBar     from './components/StatusBar.jsx';
-import PlazaView     from './views/PlazaView.jsx';
-import BuilderView   from './views/BuilderView.jsx';
-import VaultView     from './views/VaultView.jsx';
+import React, { useState, useCallback } from 'react';
+import { useResources }      from './hooks/useResources.js';
+import { useTheme }          from './hooks/useTheme.js';
+import { useWindowManager }  from './hooks/useWindowManager.js';
+import AuthScreen            from './components/AuthScreen.jsx';
+import AddNodeModal          from './components/AddNodeModal.jsx';
+import Desktop               from './os/Desktop.jsx';
+
+// App views
+import PlazaView        from './views/PlazaView.jsx';
+import BuilderView      from './views/BuilderView.jsx';
+import VaultView        from './views/VaultView.jsx';
+import OpsCenterView    from './views/OpsCenterView.jsx';
+
+// Standalone apps
+import NotepadApp       from './apps/NotepadApp.jsx';
+import MyComputerApp    from './apps/MyComputerApp.jsx';
+import SearchApp        from './apps/SearchApp.jsx';
+import ControlPanelApp  from './apps/ControlPanelApp.jsx';
+import HelpApp          from './apps/HelpApp.jsx';
+
+const APP_META = {
+  plaza:    { title: 'The Plaza — CivicOS',       appId: 'plaza'    },
+  builder:  { title: 'The Builder — CivicOS',     appId: 'builder'  },
+  vault:    { title: 'The Vault — CivicOS',        appId: 'vault'    },
+  ops:      { title: 'Ops Center — CivicOS',       appId: 'ops'      },
+  notepad:  { title: 'Notepad',                    appId: 'notepad'  },
+  computer: { title: 'My Computer',                appId: 'computer' },
+  search:   { title: 'Search Results',             appId: 'search'   },
+  settings: { title: 'Control Panel',              appId: 'settings' },
+  help:     { title: 'Help and Support',           appId: 'help'     },
+};
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab]             = useState('plaza');
-  const [showGuide, setShowGuide]             = useState(true);
   const [isAddModalOpen, setIsAddModalOpen]   = useState(false);
 
-  // Hooks must be called unconditionally (before any early return)
   const { theme, setTheme } = useTheme();
   const { resources, handleVote, commitLead, discardLead, handleSaveNode } = useResources();
+  const {
+    windows,
+    openWindow,
+    closeWindow,
+    focusWindow,
+    minimize,
+    restore,
+    maximize,
+    moveWindow,
+  } = useWindowManager();
 
-  const discoveryCount = resources.filter(r => r.status === 'discovery').length;
+  const openApp = useCallback((appId) => {
+    const meta = APP_META[appId];
+    if (!meta) return;
+    openWindow(appId, meta.appId, meta.title);
+  }, [openWindow]);
+
+  const renderApp = useCallback((win) => {
+    switch (win.appId) {
+      case 'plaza':
+        return (
+          <PlazaView
+            resources={resources}
+            onVote={handleVote}
+            onCommit={commitLead}
+            onDiscard={discardLead}
+            onAddLead={() => setIsAddModalOpen(true)}
+          />
+        );
+      case 'builder':
+        return <BuilderView resources={resources} />;
+      case 'vault':
+        return <VaultView />;
+      case 'ops':
+        return <OpsCenterView />;
+      case 'notepad':
+        return <NotepadApp />;
+      case 'computer':
+        return <MyComputerApp onOpenApp={openApp} />;
+      case 'search':
+        return <SearchApp onOpenApp={openApp} />;
+      case 'settings':
+        return <ControlPanelApp theme={theme} setTheme={setTheme} />;
+      case 'help':
+        return <HelpApp />;
+      default:
+        return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
+    }
+  }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme]);
 
   if (!isAuthenticated) {
     return <AuthScreen onAuth={() => setIsAuthenticated(true)} />;
   }
 
   return (
-    <div className="flex h-screen bg-[var(--color-desktop-bg)] p-2 md:p-6 font-sans selection:bg-[var(--color-accent-selected)] selection:text-white">
-
+    <>
       {isAddModalOpen && (
         <AddNodeModal
-          onSave={(node) => handleSaveNode(node, () => {
-            setIsAddModalOpen(false);
-            setActiveTab('plaza');
-          })}
+          onSave={(node) => handleSaveNode(node, () => setIsAddModalOpen(false))}
           onClose={() => setIsAddModalOpen(false)}
         />
       )}
 
-      {/* Application Window */}
-      <div className="w-full h-full flex flex-col bg-[var(--color-window-bg)] border border-[var(--color-window-border)] rounded-t-xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
-
-        <AppChrome
-          activeTab={activeTab}
-          onLogOff={() => setIsAuthenticated(false)}
-          onAddLead={() => setIsAddModalOpen(true)}
-          onToggleGuide={() => setShowGuide(v => !v)}
-          theme={theme}
-          setTheme={setTheme}
-        />
-
-        <div className="flex-1 flex overflow-hidden">
-          <TaskPane
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            discoveryCount={discoveryCount}
-          />
-
-          <main className="flex-1 bg-[var(--color-panel-bg)] overflow-y-auto p-4 md:p-6 text-[var(--color-text-primary)] relative shadow-[inset_1px_1px_3px_rgba(0,0,0,0.1)]">
-            {showGuide && <InfoBar onDismiss={() => setShowGuide(false)} />}
-
-            {activeTab === 'plaza' && (
-              <PlazaView
-                resources={resources}
-                onVote={handleVote}
-                onCommit={commitLead}
-                onDiscard={discardLead}
-                onAddLead={() => setIsAddModalOpen(true)}
-              />
-            )}
-            {activeTab === 'builder' && (
-              <BuilderView resources={resources} />
-            )}
-            {activeTab === 'vault' && (
-              <VaultView />
-            )}
-          </main>
-        </div>
-
-        <StatusBar nodeCount={resources.length} />
-      </div>
-    </div>
+      <Desktop
+        windows={windows}
+        onOpenApp={openApp}
+        onCloseWindow={closeWindow}
+        onMinimizeWindow={minimize}
+        onMaximizeWindow={maximize}
+        onFocusWindow={focusWindow}
+        onMoveWindow={moveWindow}
+        onRestoreWindow={restore}
+        onLogOff={() => setIsAuthenticated(false)}
+        renderApp={renderApp}
+        theme={theme}
+        setTheme={setTheme}
+      />
+    </>
   );
 }
