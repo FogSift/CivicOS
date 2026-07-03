@@ -33,7 +33,26 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) and click **Enter Demo Workspace**.
+Open [http://localhost:5050](http://localhost:5050) and click **Enter Demo Workspace**.
+
+### 5050-First Adapter Mode (FogSift APIs)
+
+Run FogSift on an adapter port, then run CivicOS as the shell on `:5050`:
+
+```bash
+# Terminal A (FogSift repo)
+node scripts/build.js
+npm run serve:adapter
+
+# Terminal B (CivicOS repo)
+FOGSIFT_API_ORIGIN=http://localhost:5051 npm run dev
+```
+
+Validate namespaces through CivicOS:
+
+```bash
+npm run check:5050
+```
 
 ---
 

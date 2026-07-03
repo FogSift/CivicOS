@@ -9,6 +9,28 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **Full browser OS rebuild** — replaced the single-window tab UI with a complete
+  Windows XP-style desktop:
+  - `useWindowManager` hook — open/close/minimize/maximize/focus/drag with z-index
+  - `OsWindow` — draggable windows with XP.css chrome
+  - `Desktop` — Bliss-style wallpaper, desktop icon grid, renders all windows
+  - `Taskbar` — Start button, per-window taskbar buttons, live clock system tray
+  - `StartMenu` — two-column XP layout (pinned apps + system tools)
+  - `SystemTrayPanel` — theme switcher, volume, network status from clock click
+  - Built-in apps: Search, Control Panel, Help, Notepad, My Computer
+- **Theme system** — `useTheme` hook + `ThemeSwitcher`; all components theme-aware
+  via CSS variables (Classic XP and Crème XP)
+- **StatusBar** and **ContextMenu** components
+- **Ops Center** (`OpsCenterView`) — loads the CivicOS app registry and manifests
+  from `/api/apps/*` and reports per-app namespace health checks
+- **5050-first adapter mode** — dev server pinned to `localhost:5050` (strict),
+  proxying `/api` and `/workflow-engine` to a FogSift adapter
+  (`FOGSIFT_API_ORIGIN`, default `localhost:5051`)
+- `npm run check:5050` — validates required API namespaces are reachable
+  through CivicOS (`scripts/check-5050-namespaces.mjs`)
+
 ### Changed
 
 - **Decomposed monolithic App.jsx** into focused components and views.

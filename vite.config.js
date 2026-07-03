@@ -18,6 +18,22 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    port: 5050,
+    strictPort: true,
+    proxy: {
+      '/api': {
+        target: process.env.FOGSIFT_API_ORIGIN || 'http://localhost:5051',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/workflow-engine': {
+        target: process.env.FOGSIFT_API_ORIGIN || 'http://localhost:5051',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   define: {
     // Available globally in the app as __APP_VERSION__ — no import needed.
     // e.g.  <span>{__APP_VERSION__}</span>

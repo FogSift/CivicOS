@@ -210,3 +210,7 @@ __marimo__/
 node_modules/
 dist/
 .DS_Store
+
+# Empirica session state (local epistemic tracking, not project source)
+.empirica/
+.empirica_reflex_logs/
