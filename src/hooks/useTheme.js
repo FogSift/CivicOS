@@ -5,11 +5,15 @@
  */
 
 import { useState, useEffect } from 'react';
+import { useKernel } from '../kernel/CivicProvider.jsx';
 
 const THEMES = ['classic', 'creme'];
 const STORAGE_KEY = 'civicos-theme';
 
+// Theme stays in localStorage (synchronous — applies pre-paint);
+// the kernel ledger only records the change events.
 export function useTheme() {
+  const { logEvent } = useKernel();
   const [theme, setThemeState] = useState(
     () => localStorage.getItem(STORAGE_KEY) ?? 'classic'
   );
@@ -20,7 +24,9 @@ export function useTheme() {
   }, [theme]);
 
   const setTheme = (newTheme) => {
-    if (THEMES.includes(newTheme)) setThemeState(newTheme);
+    if (!THEMES.includes(newTheme) || newTheme === theme) return;
+    logEvent('theme.change', { from: theme, to: newTheme });
+    setThemeState(newTheme);
   };
 
   return { theme, setTheme, themes: THEMES };

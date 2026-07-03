@@ -1,4 +1,12 @@
-import { useReducer, useCallback } from 'react';
+/**
+ * @fileId 30c3e3d8-a46d-48ac-ae7d-afccf344aa1e
+ * @module CivicOS/hooks/useWindowManager
+ * @description Window state reducer — open/close/focus/minimize/maximize/drag
+ *              with z-index management. Layout persists via the kernel.
+ */
+
+import { useReducer, useCallback, useEffect, useRef } from 'react';
+import { useKernel } from '../kernel/CivicProvider.jsx';
 
 const DEFAULT_SIZES = {
   plaza:     { w: 860, h: 580 },
@@ -8,7 +16,14 @@ const DEFAULT_SIZES = {
   notepad:   { w: 560, h: 420 },
   computer:  { w: 640, h: 460 },
   addlead:   { w: 480, h: 400 },
+  events:    { w: 760, h: 500 },
 };
+
+// Drag emits MOVE per mousemove — debounce writes so IndexedDB isn't hammered.
+const PERSIST_DEBOUNCE_MS = 300;
+
+const isValidLayout = (s) =>
+  s && Array.isArray(s.windows) && typeof s.openCount === 'number';
 
 function cascade(id, openCount) {
   const offset = (openCount % 8) * 28;
@@ -106,10 +121,30 @@ function reducer(state, action) {
 }
 
 export function useWindowManager() {
-  const [state, dispatch] = useReducer(reducer, { windows: [], openCount: 0 });
+  const { snapshots, saveSnapshot, logEvent } = useKernel();
+  const [state, dispatch] = useReducer(
+    reducer,
+    isValidLayout(snapshots.windows) ? snapshots.windows : { windows: [], openCount: 0 }
+  );
 
-  const openWindow  = useCallback((id, appId, title) => dispatch({ type: 'OPEN',     id, appId, title }), []);
-  const closeWindow = useCallback((id)                => dispatch({ type: 'CLOSE',    id }),               []);
+  // Ref lets open/close callbacks inspect current windows without dep churn.
+  const windowsRef = useRef(state.windows);
+  windowsRef.current = state.windows;
+
+  useEffect(() => {
+    const timer = setTimeout(() => saveSnapshot('windows', state), PERSIST_DEBOUNCE_MS);
+    return () => clearTimeout(timer);
+  }, [state, saveSnapshot]);
+
+  const openWindow  = useCallback((id, appId, title) => {
+    if (!windowsRef.current.some(w => w.id === id)) logEvent('window.open', { appId, title });
+    dispatch({ type: 'OPEN', id, appId, title });
+  }, [logEvent]);
+  const closeWindow = useCallback((id) => {
+    const win = windowsRef.current.find(w => w.id === id);
+    if (win) logEvent('window.close', { appId: win.appId });
+    dispatch({ type: 'CLOSE', id });
+  }, [logEvent]);
   const focusWindow = useCallback((id)                => dispatch({ type: 'FOCUS',    id }),               []);
   const minimize    = useCallback((id)                => dispatch({ type: 'MINIMIZE', id }),               []);
   const restore     = useCallback((id)                => dispatch({ type: 'RESTORE',  id }),               []);

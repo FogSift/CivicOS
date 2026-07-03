@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useCallback } from 'react';
+import { useKernel }         from './kernel/CivicProvider.jsx';
 import { useResources }      from './hooks/useResources.js';
 import { useTheme }          from './hooks/useTheme.js';
 import { useWindowManager }  from './hooks/useWindowManager.js';
@@ -38,9 +39,26 @@ const APP_META = {
   help:     { title: 'Help and Support',           appId: 'help'     },
 };
 
+const SESSION_USER = 'System Administrator';
+
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { snapshots, saveSnapshot, logEvent } = useKernel();
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => snapshots.session?.authenticated ?? false
+  );
   const [isAddModalOpen, setIsAddModalOpen]   = useState(false);
+
+  const handleLogon = useCallback(() => {
+    setIsAuthenticated(true);
+    saveSnapshot('session', { authenticated: true, user: SESSION_USER });
+    logEvent('session.logon', { user: SESSION_USER });
+  }, [saveSnapshot, logEvent]);
+
+  const handleLogoff = useCallback(() => {
+    setIsAuthenticated(false);
+    saveSnapshot('session', { authenticated: false, user: SESSION_USER });
+    logEvent('session.logoff', {});
+  }, [saveSnapshot, logEvent]);
 
   const { theme, setTheme } = useTheme();
   const { resources, handleVote, commitLead, discardLead, handleSaveNode } = useResources();
@@ -95,7 +113,7 @@ export default function App() {
   }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme]);
 
   if (!isAuthenticated) {
-    return <AuthScreen onAuth={() => setIsAuthenticated(true)} />;
+    return <AuthScreen onAuth={handleLogon} />;
   }
 
   return (
@@ -116,7 +134,7 @@ export default function App() {
         onFocusWindow={focusWindow}
         onMoveWindow={moveWindow}
         onRestoreWindow={restore}
-        onLogOff={() => setIsAuthenticated(false)}
+        onLogOff={handleLogoff}
         renderApp={renderApp}
         theme={theme}
         setTheme={setTheme}
