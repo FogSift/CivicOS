@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, LogOut, Settings, HelpCircle, Search } from 'lucide-react';
+import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, LogOut, Settings, HelpCircle, Search, ScrollText } from 'lucide-react';
 
 const PINNED_APPS = [
   { id: 'plaza',   label: 'The Plaza',    sub: 'Civic Discovery',  Icon: Radar },
@@ -13,6 +13,7 @@ const SYSTEM_ITEMS = [
   { id: 'computer', label: 'My Computer',      Icon: Monitor },
   { id: 'search',   label: 'Search',           Icon: Search },
   { id: 'settings', label: 'Control Panel',    Icon: Settings },
+  { id: 'events',   label: 'Event Viewer',     Icon: ScrollText },
   { id: 'help',     label: 'Help and Support', Icon: HelpCircle },
 ];
 

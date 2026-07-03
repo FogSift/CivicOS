@@ -26,6 +26,7 @@ import MyComputerApp    from './apps/MyComputerApp.jsx';
 import SearchApp        from './apps/SearchApp.jsx';
 import ControlPanelApp  from './apps/ControlPanelApp.jsx';
 import HelpApp          from './apps/HelpApp.jsx';
+import EventViewerApp   from './apps/EventViewerApp.jsx';
 
 const APP_META = {
   plaza:    { title: 'The Plaza — CivicOS',       appId: 'plaza'    },
@@ -36,6 +37,7 @@ const APP_META = {
   computer: { title: 'My Computer',                appId: 'computer' },
   search:   { title: 'Search Results',             appId: 'search'   },
   settings: { title: 'Control Panel',              appId: 'settings' },
+  events:   { title: 'Event Viewer',               appId: 'events'   },
   help:     { title: 'Help and Support',           appId: 'help'     },
 };
 
@@ -105,6 +107,8 @@ export default function App() {
         return <SearchApp onOpenApp={openApp} />;
       case 'settings':
         return <ControlPanelApp theme={theme} setTheme={setTheme} />;
+      case 'events':
+        return <EventViewerApp />;
       case 'help':
         return <HelpApp />;
       default:
