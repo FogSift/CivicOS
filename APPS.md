@@ -48,7 +48,7 @@ Panel**, **Help**, **Notepad**, **My Computer**, and the **Ops Center**.
 | 2 | **The Builder** | — | Kanban pipeline: Discovery → Vetting → Drafting → Review | — | — | ✅ exists |
 | 3 | **The Vault** | My Documents | Real file storage: upload, version, link docs to grants/tasks, provenance from ledger | M | 1, 3 | 🔶 static today |
 | 4 | **Town Hall** | — | Formal governance: proposals with quorum rules, binding votes, terms, minutes attached | M | 2, 3 | idea |
-| 5 | **Event Viewer** | Event Viewer | Ledger explorer: every signed action, filterable, exportable — the audit trail as a first-class app | S | 3 | idea |
+| 5 | **Event Viewer** | Event Viewer | Ledger explorer: every signed action, filterable, exportable — the audit trail as a first-class app | S | 3 | ✅ shipped (unsigned events; signatures land at step 2) |
 | 6 | **Address Book** | Address Book | Member directory: people, roles, Paper Key fingerprints, capacity points, skills | S | 2 | idea |
 | 7 | **The Charter** | Control Panel section | Bylaws as settings: quorum %, roles, voting windows — governance you open and adjust | M | 2 | ControlPanelApp seed |
 

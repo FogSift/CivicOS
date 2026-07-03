@@ -11,6 +11,20 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Kernel v0** (`src/kernel/`) — storage adapter with hand-rolled IndexedDB
+  backend (`civicos-kernel` DB: `kv` snapshots + append-only `events` ledger)
+  and in-memory fallback; the adapter interface is the contract for a future
+  PGLite backend
+- **CivicProvider** — boot sequence (BOOTING → READY) with XP-style boot
+  screen; hydrates persisted state before the desktop mounts; `useKernel()`
+  context hook
+- **Civic event ledger** — append-only log of resource votes/commits/
+  discards/adds, window open/close, theme changes, logon/logoff, and kernel
+  boots
+- **Persistence** — resources, logon session, and window layout now survive
+  reload; the OS remembers
+- **Event Viewer** app (Start Menu → System) — filter by type, live count,
+  JSON export, storage-backend status bar
 - **Full browser OS rebuild** — replaced the single-window tab UI with a complete
   Windows XP-style desktop:
   - `useWindowManager` hook — open/close/minimize/maximize/focus/drag with z-index
