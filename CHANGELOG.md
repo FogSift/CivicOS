@@ -11,6 +11,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Cognitive Diagnostics** app (desktop icon + Start Menu) — first-class
+  CivicOS window for FogSift's Workflow Engine running in cognitive mode
+  (`/workflow-engine?cognitive=1`), the Empirica cognitive-suite playback
+  and Oracle recommendation surface already registered in the CivicOS app
+  manifest registry (`cognitive-diagnostics.json`) but previously reachable
+  only as a buried link inside the generic Ops Center list. No new external
+  code — the Workflow Engine is FogSift's own app, already proxied through
+  the existing `/workflow-engine` route.
+
 - **Builder pipeline is now interactive** — right-click a card to Advance
   or Send back through Discovery → Vetting → Drafting → Submitted (disabled
   at either end); previously the kanban board was display-only. Sending a

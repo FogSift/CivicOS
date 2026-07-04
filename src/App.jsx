@@ -45,6 +45,7 @@ const APP_META = {
   solitaire:   { title: 'Solitaire',                  appId: 'solitaire'  },
   minesweeper: { title: 'Minesweeper',                appId: 'minesweeper'},
   paint:       { title: 'Paint',                      appId: 'paint'      },
+  cognitive:   { title: 'Cognitive Diagnostics',       appId: 'cognitive'  },
 };
 
 const SESSION_USER = 'System Administrator';
@@ -151,6 +152,8 @@ export default function App() {
         return <IframeApp src="/apps/minesweeper/index.html" title="Minesweeper" />;
       case 'paint':
         return <IframeApp src="/apps/jspaint/index.html" title="Paint" />;
+      case 'cognitive':
+        return <IframeApp src="/workflow-engine?cognitive=1" title="Cognitive Diagnostics" />;
       default:
         return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
     }
