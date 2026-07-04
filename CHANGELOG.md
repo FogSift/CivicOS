@@ -88,6 +88,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - "Sync Network" disabled toolbar button removed from UI
 - Locked Network Modules sidebar section removed — nav is now
   strictly The Radar, Active Pipeline, Asset Vault
+- Orphaned pre-OS-shell components (`AppChrome`, `TaskPane`, `InfoBar`,
+  `ThemeSwitcher`) — superseded by the browser-OS rebuild; theme switching
+  lives in Control Panel → Display and the system tray; never imported
+  since the rebuild
 
 ---
 
