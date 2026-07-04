@@ -622,6 +622,30 @@ ever appears in `git status` or the repo history.
 
 ---
 
+---
+
+### WP17 — Further open-source game candidates (backlog, not yet scoped)
+
+Requested as a follow-up recommendation list. These share Doom's clean legal
+pattern — original creator released the source *and* the assets are freely
+distributable — so none carry WP16's Diablo-style asset problem. Not yet
+speced to WP-level detail; each needs its own repo/build verification pass
+before a build package is written.
+
+| Game | Why it's clean | Notes |
+|---|---|---|
+| **Wolfenstein 3D** | id Software GPL source release; shareware data freely distributable since 1993 (same status as Doom's WAD) | Smaller footprint than Doom, several existing WASM/JS ports — verify current best port before vendoring |
+| **Quake** | id Software GPL source release; shareware `pak0.pak` freely distributable | `quakejs` (browser Quake via Emscripten/WebGL) is a known, actually-deployed port — more technically impressive than Wolf3D, similar vendoring pattern to WP15 |
+| **Colossal Cave Adventure** | Original 1976 game; `esr/open-adventure` is an explicitly open-sourced, permissively-licensed C port maintained by Eric S. Raymond | Tiny footprint, arguably the first computer game ever made — thematically perfect for a nostalgic OS; compiles to WASM trivially given its size |
+| **Freeciv-web** | Freeciv is fully open source (GPL), code *and* assets both free — no third-party data problem at all | Genuinely browser-native already; verify whether its architecture needs a backend civserver for single-player or if there's a fully client-side mode before committing to it |
+| **OpenRA** | Reimplements Command & Conquer/Red Alert/Dune 2000; Westwood released the original C&C/Red Alert assets as freeware in 2007, so OpenRA needs no purchased data | Best-known desktop build is native (Mono), not WASM — would need a web-build feasibility check first, unlike the others in this list |
+
+Recommended next step if any of these move forward: repeat the WP13–15
+research pattern (search → verify license → verify web/WASM build exists or
+is feasible → verify asset distributability) before writing a build package.
+
+---
+
 ## Final Acceptance (run once, after WP15)
 
 - [ ] `npm run build` passes
