@@ -42,6 +42,7 @@ const APP_META = {
   help:        { title: 'Help and Support',           appId: 'help'       },
   solitaire:   { title: 'Solitaire',                  appId: 'solitaire'  },
   minesweeper: { title: 'Minesweeper',                appId: 'minesweeper'},
+  paint:       { title: 'Paint',                      appId: 'paint'      },
 };
 
 const SESSION_USER = 'System Administrator';
@@ -118,6 +119,8 @@ export default function App() {
         return <IframeApp src="/apps/solitaire/index.html" title="Solitaire" />;
       case 'minesweeper':
         return <IframeApp src="/apps/minesweeper/index.html" title="Minesweeper" />;
+      case 'paint':
+        return <IframeApp src="/apps/jspaint/index.html" title="Paint" />;
       default:
         return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
     }

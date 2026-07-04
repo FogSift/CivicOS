@@ -17,6 +17,9 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   served as static apps under `public/apps/` and mounted via a new generic
   `IframeApp` component; desktop icons + Start Menu entries. Source audited
   in full before vendoring (see `THIRD_PARTY_LICENSES.md`).
+- **Paint** — vendored [1j01/jspaint](https://github.com/1j01/jspaint) (MIT),
+  scoped to just its browser app (Electron build, Discord Activity, and
+  tests excluded); desktop icon + Start Menu entry.
 
 - **Kernel v0** (`src/kernel/`) — storage adapter with hand-rolled IndexedDB
   backend (`civicos-kernel` DB: `kv` snapshots + append-only `events` ledger)
