@@ -11,8 +11,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Builder pipeline is now interactive** — right-click a card to Advance
+  or Send back through Discovery → Vetting → Drafting → Submitted (disabled
+  at either end); previously the kanban board was display-only. Sending a
+  vetting card back correctly returns it to the Plaza feed.
+- **Plaza status bar and card menu** — the Plaza now shows a live status
+  bar (version, lead count); grant cards gained a right-click Commit/
+  Discard menu alongside the existing buttons (the February roadmap item)
 - **Vault folder navigation** — double-clicking a folder now opens it (Back
-  + breadcrumb) and lists kernel-backed documents, with an honest "This
+  and breadcrumb) and lists kernel-backed documents, with an honest "This
   folder is empty" state (nothing writes documents yet — upload stays out
   of scope, but any future writer surfaces here for free)
 - **Search is now submit-driven** — typing alone no longer changes results;

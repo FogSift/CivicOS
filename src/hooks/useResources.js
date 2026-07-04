@@ -6,7 +6,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { initialResources } from '../constants.js';
+import { initialResources, PipelineColumns } from '../constants.js';
 import { useKernel } from '../kernel/CivicProvider.jsx';
 
 export function useResources() {
@@ -36,6 +36,17 @@ export function useResources() {
     setResources(prev => prev.filter(r => r.id !== id));
   };
 
+  const moveLead = (id, direction) => {
+    const resource = resources.find(r => r.id === id);
+    if (!resource) return;
+    const fromIndex = PipelineColumns.findIndex(c => c.id === resource.status);
+    const toIndex = Math.min(Math.max(fromIndex + direction, 0), PipelineColumns.length - 1);
+    if (toIndex === fromIndex) return;
+    const to = PipelineColumns[toIndex].id;
+    logEvent('resource.move', { id, from: resource.status, to });
+    setResources(prev => prev.map(r => r.id === id ? { ...r, status: to } : r));
+  };
+
   const handleSaveNode = (newNode, onSuccess) => {
     if (!newNode.title) return;
     const nextId = resources.length ? Math.max(...resources.map(r => r.id)) + 1 : 1;
@@ -57,5 +68,5 @@ export function useResources() {
     onSuccess?.();
   };
 
-  return { resources, handleVote, commitLead, discardLead, handleSaveNode };
+  return { resources, handleVote, commitLead, discardLead, moveLead, handleSaveNode };
 }

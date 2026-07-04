@@ -10,7 +10,7 @@ import { KanbanSquare } from 'lucide-react';
 import KanbanColumn from '../components/KanbanColumn.jsx';
 import { PipelineColumns } from '../constants.js';
 
-export default function BuilderView({ resources }) {
+export default function BuilderView({ resources, onMoveLead }) {
   return (
     <div className="h-full flex flex-col">
       <div className="pb-2 mb-4 shrink-0" style={{ borderBottom: '1px solid var(--color-border-main)' }}>
@@ -23,7 +23,7 @@ export default function BuilderView({ resources }) {
 
       <div className="flex-1 flex space-x-4 overflow-x-auto pb-4 items-start">
         {PipelineColumns.map(col => (
-          <KanbanColumn key={col.id} column={col} resources={resources} />
+          <KanbanColumn key={col.id} column={col} resources={resources} onMoveLead={onMoveLead} />
         ))}
       </div>
     </div>

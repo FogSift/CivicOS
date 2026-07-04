@@ -82,7 +82,7 @@ export default function App() {
 
   const { theme, setTheme } = useTheme();
   const { settings, updateSettings } = useSettings();
-  const { resources, handleVote, commitLead, discardLead, handleSaveNode } = useResources();
+  const { resources, handleVote, commitLead, discardLead, moveLead, handleSaveNode } = useResources();
   const {
     windows,
     openWindow,
@@ -119,7 +119,7 @@ export default function App() {
           />
         );
       case 'builder':
-        return <BuilderView resources={resources} />;
+        return <BuilderView resources={resources} onMoveLead={moveLead} />;
       case 'vault':
         return <VaultView />;
       case 'ops':
@@ -154,7 +154,7 @@ export default function App() {
       default:
         return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
     }
-  }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme, handleCloseWindow, settings, updateSettings, user, handleRenameUser]);
+  }, [resources, handleVote, commitLead, discardLead, moveLead, openApp, theme, setTheme, handleCloseWindow, settings, updateSettings, user, handleRenameUser]);
 
   if (!isAuthenticated) {
     return <AuthScreen onAuth={handleLogon} />;

@@ -5,16 +5,19 @@
  *              Used in PlazaView. Core interactive unit of The Plaza feed.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ChevronUp, ChevronDown, DollarSign, Calendar, Target, ArrowRight, Trash2 } from 'lucide-react';
+import ContextMenu from './ContextMenu.jsx';
 
 export default function GrantCard({ resource, onVote, onCommit, onDiscard }) {
+  const [menu, setMenu] = useState(null);
   const voteColor = resource.votes > 0 ? 'var(--color-success)' : resource.votes < 0 ? 'var(--color-error-from)' : 'var(--color-text-primary)';
 
   return (
     <div
       className="p-3 flex items-start shadow-sm transition-colors"
       style={{ background: 'var(--color-panel-bg)', border: '1px solid var(--color-border-main)' }}
+      onContextMenu={(e) => { e.preventDefault(); setMenu({ x: e.clientX, y: e.clientY }); }}
     >
       {/* Voting — spin-button style */}
       <div className="flex flex-col items-center mr-4 w-12 shrink-0 pt-1">
@@ -45,7 +48,7 @@ export default function GrantCard({ resource, onVote, onCommit, onDiscard }) {
       {/* Content */}
       <div className="flex-1 min-w-0 pr-4">
         <div className="flex items-center space-x-3 mb-2">
-          <span className="text-base font-bold truncate hover:underline cursor-pointer" style={{ color: 'var(--color-text-link)' }}>
+          <span className="text-base font-bold truncate" style={{ color: 'var(--color-text-link)' }}>
             {resource.title}
           </span>
           <span
@@ -82,6 +85,19 @@ export default function GrantCard({ resource, onVote, onCommit, onDiscard }) {
           Discard
         </button>
       </div>
+
+      {menu && (
+        <ContextMenu
+          x={menu.x}
+          y={menu.y}
+          onClose={() => setMenu(null)}
+          items={[
+            { label: 'Commit', icon: <ArrowRight size={12} />, onClick: () => onCommit(resource.id) },
+            { separator: true },
+            { label: 'Discard', icon: <Trash2 size={12} />, danger: true, onClick: () => onDiscard(resource.id) },
+          ]}
+        />
+      )}
     </div>
   );
 }

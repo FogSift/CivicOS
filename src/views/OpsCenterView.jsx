@@ -116,6 +116,8 @@ export default function OpsCenterView() {
                       <a
                         key={action.id}
                         href={action.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center px-2 py-1"
                         style={{ background: 'var(--color-panel-bg)', border: '1px solid var(--color-border-main)' }}
                       >

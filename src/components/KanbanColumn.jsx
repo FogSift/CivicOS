@@ -4,10 +4,17 @@
  * @description Single column in The Builder kanban board.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+import { ArrowRight, ArrowLeft } from 'lucide-react';
+import ContextMenu from './ContextMenu.jsx';
+import { PipelineColumns } from '../constants.js';
 
-export default function KanbanColumn({ column, resources }) {
+export default function KanbanColumn({ column, resources, onMoveLead }) {
+  const [menu, setMenu] = useState(null);
   const cards = resources.filter(r => r.status === column.id);
+  const columnIndex = PipelineColumns.findIndex(c => c.id === column.id);
+  const nextColumn = PipelineColumns[columnIndex + 1];
+  const prevColumn = PipelineColumns[columnIndex - 1];
 
   return (
     <div
@@ -39,15 +46,16 @@ export default function KanbanColumn({ column, resources }) {
         {cards.map(resource => (
           <div
             key={resource.id}
-            className="p-2 cursor-pointer shadow-sm"
+            className="p-2 shadow-sm"
             style={{
               background: 'linear-gradient(180deg, var(--color-btn-from), var(--color-btn-to))',
               border: '1px solid var(--color-border-main)',
             }}
+            onContextMenu={(e) => { e.preventDefault(); setMenu({ id: resource.id, x: e.clientX, y: e.clientY }); }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--color-accent-selected)'; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--color-border-main)'; }}
           >
-            <span className="font-bold text-sm leading-tight hover:underline block mb-2" style={{ color: 'var(--color-text-link)' }}>
+            <span className="font-bold text-sm leading-tight block mb-2" style={{ color: 'var(--color-text-link)' }}>
               {resource.title}
             </span>
             <div className="flex items-center justify-between text-xs pt-1" style={{ borderTop: '1px solid var(--color-border-main)', color: 'var(--color-text-primary)' }}>
@@ -60,6 +68,28 @@ export default function KanbanColumn({ column, resources }) {
           <div className="text-center p-4 text-xs italic" style={{ color: 'var(--color-border-main)' }}>Empty folder</div>
         )}
       </div>
+
+      {menu && (
+        <ContextMenu
+          x={menu.x}
+          y={menu.y}
+          onClose={() => setMenu(null)}
+          items={[
+            {
+              label: nextColumn ? `Advance to ${nextColumn.label}` : 'Advance',
+              icon: <ArrowRight size={12} />,
+              disabled: !nextColumn,
+              onClick: () => onMoveLead?.(menu.id, 1),
+            },
+            {
+              label: prevColumn ? `Send back to ${prevColumn.label}` : 'Send back',
+              icon: <ArrowLeft size={12} />,
+              disabled: !prevColumn,
+              onClick: () => onMoveLead?.(menu.id, -1),
+            },
+          ]}
+        />
+      )}
     </div>
   );
 }
