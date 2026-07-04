@@ -11,6 +11,14 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Vault folder navigation** — double-clicking a folder now opens it (Back
+  + breadcrumb) and lists kernel-backed documents, with an honest "This
+  folder is empty" state (nothing writes documents yet — upload stays out
+  of scope, but any future writer surfaces here for free)
+- **Search is now submit-driven** — typing alone no longer changes results;
+  pressing Enter or clicking Search runs it, making the button (previously
+  vestigial) do real work; category sidebar links show an honest disabled
+  state instead of looking clickable
 - **My Computer sidebar** — tasks now open real windows (Change a setting →
   Control Panel, Network Places → Ops Center, My Documents → Vault) or show
   an honest disabled state (Add/remove programs, Shared Documents); "View

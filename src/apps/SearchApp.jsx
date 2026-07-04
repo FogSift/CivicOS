@@ -11,14 +11,20 @@ const ALL_ITEMS = [
 
 export default function SearchApp({ onOpenApp }) {
   const [query, setQuery] = useState('');
+  const [submitted, setSubmitted] = useState('');
 
   const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = submitted.trim().toLowerCase();
     if (!q) return [];
     return ALL_ITEMS.filter(
       item => item.label.toLowerCase().includes(q) || item.desc.toLowerCase().includes(q)
     );
-  }, [query]);
+  }, [submitted]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(query);
+  };
 
   return (
     <div style={{ display: 'flex', height: '100%', fontFamily: 'Tahoma, Arial, sans-serif' }}>
@@ -45,9 +51,9 @@ export default function SearchApp({ onOpenApp }) {
         </div>
         <div style={{ width: '100%', borderTop: '1px solid var(--color-border-main)', paddingTop: 8 }}>
           {['Applications', 'Documents', 'Settings'].map(cat => (
-            <div key={cat} style={{
-              fontSize: 11, color: 'var(--color-text-link)',
-              textDecoration: 'underline', cursor: 'default',
+            <div key={cat} aria-disabled="true" style={{
+              fontSize: 11, color: 'var(--color-text-muted)',
+              cursor: 'default',
               padding: '2px 0',
             }}>{cat}</div>
           ))}
@@ -58,7 +64,7 @@ export default function SearchApp({ onOpenApp }) {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--color-panel-bg)' }}>
         <div style={{ padding: '10px 12px', borderBottom: '1px solid var(--color-border-main)' }}>
           <div style={{ fontSize: 11, color: 'var(--color-text-muted)', marginBottom: 4 }}>Search for:</div>
-          <div style={{ display: 'flex', gap: 6 }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 6 }}>
             <div className="field-row" style={{ flex: 1, margin: 0 }}>
               <input
                 type="text"
@@ -69,23 +75,23 @@ export default function SearchApp({ onOpenApp }) {
                 style={{ flex: 1, width: '100%' }}
               />
             </div>
-            <button style={{ padding: '2px 12px', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <button type="submit" style={{ padding: '2px 12px', display: 'flex', alignItems: 'center', gap: 4 }}>
               <Search size={12} />
               Search
             </button>
-          </div>
+          </form>
         </div>
 
         {/* Results */}
         <div style={{ flex: 1, overflowY: 'auto', padding: 8 }}>
-          {query === '' && (
+          {submitted === '' && (
             <div style={{ padding: 20, textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 12 }}>
               Enter a search term to find apps and features.
             </div>
           )}
-          {query !== '' && results.length === 0 && (
+          {submitted !== '' && results.length === 0 && (
             <div style={{ padding: 20, textAlign: 'center', color: 'var(--color-text-muted)', fontSize: 12 }}>
-              No results for "{query}".
+              No results for "{submitted}".
             </div>
           )}
           {results.map(({ id, label, desc, Icon, appId }) => (
