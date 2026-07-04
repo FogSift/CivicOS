@@ -104,7 +104,7 @@ export default function App() {
       case 'ops':
         return <OpsCenterView />;
       case 'notepad':
-        return <NotepadApp />;
+        return <NotepadApp onClose={() => closeWindow(win.id)} />;
       case 'computer':
         return <MyComputerApp onOpenApp={openApp} />;
       case 'search':
@@ -124,7 +124,7 @@ export default function App() {
       default:
         return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
     }
-  }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme]);
+  }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme, closeWindow]);
 
   if (!isAuthenticated) {
     return <AuthScreen onAuth={handleLogon} />;

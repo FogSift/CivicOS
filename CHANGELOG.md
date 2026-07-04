@@ -20,6 +20,17 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Paint** — vendored [1j01/jspaint](https://github.com/1j01/jspaint) (MIT),
   scoped to just its browser app (Electron build, Discord Activity, and
   tests excluded); desktop icon + Start Menu entry.
+- **Notepad now has real menus** — File (New/Save/Exit), Edit (Select All/
+  Copy/Cut/Paste), Format (Word Wrap), View (Status Bar), Help (About), via
+  the vendored `os-gui` MenuBar.js library rather than a decorative fake
+  menu bar. Live Ln/Col tracking. Content persists to the kernel.
+
+### Fixed
+
+- Kernel snapshot cache staleness: `saveSnapshot` now refreshes the
+  in-memory snapshot cache, so closing and reopening a window (e.g.
+  Notepad) in the same session reflects the latest saved state instead of
+  the stale boot-time snapshot.
 
 - **Kernel v0** (`src/kernel/`) — storage adapter with hand-rolled IndexedDB
   backend (`civicos-kernel` DB: `kv` snapshots + append-only `events` ledger)

@@ -13,6 +13,7 @@ components under different licenses (VS Code does the same).
 | Solitaire | `public/apps/solitaire/` | [jhatzimalis/solitaire](https://github.com/jhatzimalis/solitaire) | MIT | Single `index.html`, vendored unmodified |
 | Minesweeper | `public/apps/minesweeper/` | [sylhare/Minesweeper](https://github.com/sylhare/Minesweeper) | GPL-3.0 | `index.html` + `js/`/`css`/`img/`; test suite and CI config excluded |
 | Paint | `public/apps/jspaint/` | [1j01/jspaint](https://github.com/1j01/jspaint) | MIT | `src/`/`lib/`/`styles/`/`audio/`/`images/`/`localization/`/`help/` + root HTML; Electron desktop build, Discord Activity sub-project, Cypress tests, and dev scripts excluded (not referenced by the vendored `index.html`) |
+| MenuBar.js (OS-GUI.js) | `public/vendor/os-gui/` | [1j01/os-gui](https://os-gui.js.org/) (vendored via the jspaint copy above) | MIT | Standalone menu-bar library; powers CivicOS's own Notepad (`src/apps/NotepadApp.jsx`), not iframed — used directly as a CivicOS-native app dependency |
 
 Before vendoring, each app's source was read (in full for Solitaire and
 Minesweeper; at scale — full grep sweep for `eval`/network calls/telemetry
@@ -30,6 +31,10 @@ or other supply-chain risk.
   an explicit user menu action or a dev-only URL hash — none fire
   automatically on load. The collaboration feature's `/api/rooms/*` calls
   target no backend in this deployment and simply no-op.
+
+- MenuBar.js: clean. Already covered by the jspaint sweep above — zero
+  jQuery dependency, no required `parse-theme.js`/`$Window.js`, no eval or
+  network calls of its own. Standalone, self-contained.
 
 See `WORKRUN.md` for the remaining vendored app planned (Doom) and its
 license once added.

@@ -15,7 +15,7 @@ const KernelContext = createContext(null);
 // synchronously in useState/useReducer initializers.
 const MIN_BOOT_MS = 700;
 
-const SNAPSHOT_KEYS = ['resources', 'session', 'windows'];
+const SNAPSHOT_KEYS = ['resources', 'session', 'windows', 'notepad'];
 
 // Envelope check: corrupt, missing, or wrong-version snapshots yield
 // undefined, which consumers translate to their seed state.
@@ -68,7 +68,11 @@ export default function CivicProvider({ children }) {
   }, []);
 
   const saveSnapshot = useCallback(
-    (key, data) => boot?.storage.put('kv', key, { v: 1, data }),
+    (key, data) => {
+      if (!boot) return Promise.resolve();
+      boot.snapshots[key] = data; // keep in-session reads fresh (close/reopen a window)
+      return boot.storage.put('kv', key, { v: 1, data });
+    },
     [boot]
   );
 
