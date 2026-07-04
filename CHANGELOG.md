@@ -11,6 +11,10 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **AuthScreen logon identity** — the email field now drives who you log on
+  as (Start Menu header, ledger `session.logon`/`user.rename` events);
+  clicking the user tile logs on as System Administrator; Cancel clears the
+  field; Turn Off shows a real XP shutdown screen and logs `session.logoff`
 - Kernel snapshot keys `settings` and `vault`, and ledger event types
   `resource.move`, `settings.change`, `user.rename` — registered ahead of
   the packages that use them

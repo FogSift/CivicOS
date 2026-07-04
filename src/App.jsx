@@ -52,19 +52,23 @@ export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
     () => snapshots.session?.authenticated ?? false
   );
+  const [user, setUser] = useState(() => snapshots.session?.user ?? SESSION_USER);
   const [isAddModalOpen, setIsAddModalOpen]   = useState(false);
 
-  const handleLogon = useCallback(() => {
+  // A bare onClick={onAuth} would pass a MouseEvent as nextUser -- guard for that.
+  const handleLogon = useCallback((nextUser) => {
+    const resolvedUser = (typeof nextUser === 'string' && nextUser.trim()) ? nextUser.trim() : SESSION_USER;
+    setUser(resolvedUser);
     setIsAuthenticated(true);
-    saveSnapshot('session', { authenticated: true, user: SESSION_USER });
-    logEvent('session.logon', { user: SESSION_USER });
+    saveSnapshot('session', { authenticated: true, user: resolvedUser });
+    logEvent('session.logon', { user: resolvedUser });
   }, [saveSnapshot, logEvent]);
 
   const handleLogoff = useCallback(() => {
     setIsAuthenticated(false);
-    saveSnapshot('session', { authenticated: false, user: SESSION_USER });
+    saveSnapshot('session', { authenticated: false, user });
     logEvent('session.logoff', {});
-  }, [saveSnapshot, logEvent]);
+  }, [saveSnapshot, logEvent, user]);
 
   const { theme, setTheme } = useTheme();
   const { resources, handleVote, commitLead, discardLead, handleSaveNode } = useResources();
@@ -152,6 +156,7 @@ export default function App() {
         renderApp={renderApp}
         theme={theme}
         setTheme={setTheme}
+        username={user}
       />
     </>
   );

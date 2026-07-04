@@ -4,8 +4,9 @@
  * @description XP-style login screen. Uses xp.css window chrome for authentic look.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Monitor, Power, Settings } from 'lucide-react';
+import { useKernel } from '../kernel/CivicProvider.jsx';
 
 const xpBg = {
   minHeight: '100vh',
@@ -15,7 +16,40 @@ const xpBg = {
   fontFamily: '"Pixelated MS Sans Serif", Arial, sans-serif',
 };
 
+const shutdownScreen = {
+  minHeight: '100vh',
+  background: '#000',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontFamily: '"Pixelated MS Sans Serif", Arial, sans-serif',
+};
+
 export default function AuthScreen({ onAuth }) {
+  const { logEvent } = useKernel();
+  const [email, setEmail] = useState('');
+  const [shutdown, setShutdown] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAuth(email);
+  };
+
+  const handleTurnOff = () => {
+    logEvent('session.logoff', { reason: 'shutdown' });
+    setShutdown(true);
+  };
+
+  if (shutdown) {
+    return (
+      <div style={shutdownScreen}>
+        <p style={{ color: '#f7941d', fontSize: '22px', textAlign: 'center' }}>
+          It is now safe to turn off your computer.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div style={xpBg}>
 
@@ -63,24 +97,27 @@ export default function AuthScreen({ onAuth }) {
         </div>
 
         {/* Right: XP window chrome */}
-        <div className="window" style={{ width: '320px', flexShrink: 0 }}>
+        <form onSubmit={handleSubmit} className="window" style={{ width: '320px', flexShrink: 0 }}>
           <div className="title-bar">
             <div className="title-bar-text">Log On to CivicOS</div>
             <div className="title-bar-controls">
-              <button aria-label="Help" />
+              <button type="button" aria-label="Help" disabled aria-disabled="true" />
             </div>
           </div>
 
           <div className="window-body" style={{ padding: '16px' }}>
             {/* User tile */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '12px',
-              padding: '10px 12px',
-              background: '#dce6f7',
-              border: '2px solid #7a9fd4',
-              marginBottom: '16px',
-              cursor: 'pointer',
-            }}>
+            <div
+              role="button"
+              onClick={() => onAuth()}
+              style={{
+                display: 'flex', alignItems: 'center', gap: '12px',
+                padding: '10px 12px',
+                background: '#dce6f7',
+                border: '2px solid #7a9fd4',
+                marginBottom: '16px',
+                cursor: 'pointer',
+              }}>
               <div style={{
                 width: '48px', height: '48px', flexShrink: 0,
                 background: '#fff',
@@ -101,6 +138,8 @@ export default function AuthScreen({ onAuth }) {
               <input
                 id="xp-email"
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="admin@civic-os.network"
                 style={{ width: '100%', boxSizing: 'border-box' }}
               />
@@ -108,13 +147,13 @@ export default function AuthScreen({ onAuth }) {
 
             {/* Buttons */}
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginBottom: '12px' }}>
-              <button onClick={onAuth}>Log On</button>
-              <button>Cancel</button>
+              <button type="submit">Log On</button>
+              <button type="button" onClick={() => setEmail('')}>Cancel</button>
             </div>
 
             <hr style={{ margin: '12px 0', borderColor: '#c0c0c0' }} />
 
-            <button onClick={onAuth} style={{ width: '100%' }}>
+            <button type="button" onClick={() => onAuth()} style={{ width: '100%' }}>
               Enter Demo Workspace
             </button>
 
@@ -124,7 +163,7 @@ export default function AuthScreen({ onAuth }) {
               <span style={{ fontSize: '10px', color: '#555' }}>Low-warranty peer infrastructure connected.</span>
             </div>
           </div>
-        </div>
+        </form>
       </div>
 
       {/* XP bottom bar */}
@@ -139,17 +178,17 @@ export default function AuthScreen({ onAuth }) {
         boxShadow: '0 -2px 8px rgba(0,0,0,0.4)',
       }}>
         <div style={{ display: 'flex', gap: '8px' }}>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+          <button onClick={handleTurnOff} style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
             <Power size={12} />
             Turn Off
           </button>
-          <button style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+          <button disabled aria-disabled="true" style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
             <Settings size={12} />
             Options
           </button>
         </div>
         <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px' }}>
-          CivicOS v0.0.1-alpha
+          CivicOS v{__APP_VERSION__}
         </span>
       </div>
     </div>

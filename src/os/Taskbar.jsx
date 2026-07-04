@@ -31,7 +31,7 @@ function Clock({ onClick }) {
   );
 }
 
-export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpenApp, onLogOff, theme, setTheme }) {
+export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpenApp, onLogOff, theme, setTheme, username }) {
   const [menuOpen,  setMenuOpen]  = useState(false);
   const [trayOpen,  setTrayOpen]  = useState(false);
 
@@ -81,6 +81,7 @@ export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpe
         <StartMenu
           onOpenApp={handleOpenApp}
           onLogOff={onLogOff}
+          username={username}
         />
       )}
 

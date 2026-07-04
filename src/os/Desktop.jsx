@@ -79,6 +79,7 @@ export default function Desktop({
   renderApp,
   theme,
   setTheme,
+  username,
 }) {
   return (
     <div
@@ -136,6 +137,7 @@ export default function Desktop({
         onLogOff={onLogOff}
         theme={theme}
         setTheme={setTheme}
+        username={username}
       />
     </div>
   );
