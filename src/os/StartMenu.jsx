@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, LogOut, Settings, HelpCircle, Search, ScrollText, Spade, Bomb, Paintbrush, Brain } from 'lucide-react';
+import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, LogOut, Settings, HelpCircle, Search, ScrollText, Spade, Bomb, Paintbrush, Brain, Skull } from 'lucide-react';
 
 const PINNED_APPS = [
   { id: 'plaza',       label: 'The Plaza',    sub: 'Civic Discovery',  Icon: Radar },
@@ -10,6 +10,7 @@ const PINNED_APPS = [
   { id: 'solitaire',   label: 'Solitaire',    sub: 'Card Game',        Icon: Spade },
   { id: 'minesweeper', label: 'Minesweeper',  sub: 'Puzzle Game',      Icon: Bomb },
   { id: 'paint',       label: 'Paint',        sub: 'Image Editor',     Icon: Paintbrush },
+  { id: 'doom',        label: 'DOOM',         sub: 'Shareware (1993)', Icon: Skull },
 ];
 
 const SYSTEM_ITEMS = [

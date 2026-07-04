@@ -14,6 +14,7 @@ components under different licenses (VS Code does the same).
 | Minesweeper | `public/apps/minesweeper/` | [sylhare/Minesweeper](https://github.com/sylhare/Minesweeper) | GPL-3.0 | `index.html` + `js/`/`css`/`img/`; test suite and CI config excluded |
 | Paint | `public/apps/jspaint/` | [1j01/jspaint](https://github.com/1j01/jspaint) | MIT | `src/`/`lib/`/`styles/`/`audio/`/`images/`/`localization/`/`help/` + root HTML; Electron desktop build, Discord Activity sub-project, Cypress tests, and dev scripts excluded (not referenced by the vendored `index.html`) |
 | MenuBar.js (OS-GUI.js) | `public/vendor/os-gui/` | [1j01/os-gui](https://os-gui.js.org/) (vendored via the jspaint copy above) | MIT | Standalone menu-bar library; powers CivicOS's own Notepad (`src/apps/NotepadApp.jsx`), not iframed — used directly as a CivicOS-native app dependency |
+| DOOM | `public/apps/doom/` | [cloudflare/doom-wasm](https://github.com/cloudflare/doom-wasm) (Chocolate Doom WASM) | GPL (see `COPYING`) | Compiled `websockets-doom.wasm` + `.js` glue fetched from Cloudflare's own live demo (silentspacemarine.com) — repo ships no prebuilt release, and this avoids requiring an Emscripten toolchain locally. `doom1.wad` is the id Software shareware WAD, freely redistributable since 1993 (4,196,020 bytes; SHA-256 `1d7d43be…cac771`). Single-player boot page is CivicOS-authored (adapted from the repo's `src/index.html`), multiplayer/WebSocket room-matching omitted — the game never opens a network connection. |
 
 Before vendoring, each app's source was read (in full for Solitaire and
 Minesweeper; at scale — full grep sweep for `eval`/network calls/telemetry
@@ -35,6 +36,11 @@ or other supply-chain risk.
 - MenuBar.js: clean. Already covered by the jspaint sweep above — zero
   jQuery dependency, no required `parse-theme.js`/`$Window.js`, no eval or
   network calls of its own. Standalone, self-contained.
-
-See `WORKRUN.md` for the remaining vendored app planned (Doom) and its
-license once added.
+- DOOM: the Emscripten glue (`websockets-doom.js`) was read/grepped — no
+  `eval`, no hardcoded remote `fetch()`, and a single `new WebSocket(` that
+  only fires when the game is launched with multiplayer server args (which
+  the CivicOS boot page deliberately omits). WASM verified by magic bytes
+  (`\0asm`); WAD verified as a genuine id Software `IWAD` at the exact
+  authentic shareware byte size. Compiled binary itself is not
+  source-auditable, but its provenance is Cloudflare's own published build
+  of their own open-source GPL project.

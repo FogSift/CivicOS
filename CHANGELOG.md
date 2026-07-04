@@ -9,6 +9,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **DOOM** — playable from the desktop (icon + Start Menu), single-player,
+  no network required. Vendored [cloudflare/doom-wasm](https://github.com/cloudflare/doom-wasm)
+  (Chocolate Doom compiled to WebAssembly, GPL) with the id Software
+  shareware WAD; the compiled `.wasm`/`.js` were taken from Cloudflare's own
+  live demo rather than compiling locally, so this needs no Emscripten,
+  Docker, or any other tooling to build. Boots straight into E1M1.
+
 ### Fixed
 
 - Cognitive Diagnostics: `theme-init.js`, `white-rabbit.js`, and `favicon.png`

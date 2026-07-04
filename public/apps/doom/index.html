@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+  CivicOS-vendored single-player boot page for cloudflare/doom-wasm
+  (Chocolate Doom compiled to WebAssembly, GPL — see COPYING).
+
+  Adapted from the upstream repo's own src/index.html. Multiplayer /
+  WebSocket room-matching logic (the carmack.js layer on Cloudflare's live
+  demo) is intentionally omitted: this boots the game locally with the
+  shareware WAD and never opens a network connection.
+-->
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8" />
+    <title>DOOM</title>
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #000;
+        overflow: hidden;
+        font-family: monospace;
+      }
+      #container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+      canvas.frame {
+        background-color: black;
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+      }
+      #status {
+        position: fixed;
+        bottom: 8px;
+        left: 8px;
+        color: #6a6a6a;
+        font-size: 12px;
+      }
+    </style>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+  </head>
+  <body>
+    <div id="container">
+      <canvas class="frame" id="canvas" width="640" height="400" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    </div>
+    <div id="status">Loading DOOM…</div>
+    <script>
+      // Single-player, windowed, no music, no GUI. No -servername /
+      // WebSocket args — the game never reaches for the network.
+      var commonArgs = ["-iwad", "doom1.wad", "-window", "-nogui", "-nomusic", "-config", "default.cfg"];
+
+      var statusEl = document.getElementById("status");
+
+      var Module = {
+        onRuntimeInitialized: () => {
+          callMain(commonArgs);
+        },
+        noInitialRun: true,
+        preRun: () => {
+          Module.FS.createPreloadedFile("", "doom1.wad", "doom1.wad", true, true);
+          Module.FS.createPreloadedFile("", "default.cfg", "default.cfg", true, true);
+        },
+        printErr: function (text) {
+          if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(" ");
+          console.error(text);
+        },
+        canvas: (function () {
+          var canvas = document.getElementById("canvas");
+          canvas.addEventListener(
+            "webglcontextlost",
+            function (e) {
+              alert("WebGL context lost. You will need to reload the page.");
+              e.preventDefault();
+            },
+            false
+          );
+          return canvas;
+        })(),
+        print: function (text) {
+          console.log(text);
+        },
+        setStatus: function (text) {
+          if (statusEl) statusEl.textContent = text || "";
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function (left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? "Preparing… (" + (this.totalDependencies - left) + "/" + this.totalDependencies + ")" : "");
+        },
+      };
+
+      window.onerror = function () {
+        Module.setStatus("Exception thrown, see JavaScript console");
+        Module.setStatus = function (text) {
+          if (text) Module.printErr("[post-exception status] " + text);
+        };
+      };
+
+      // Focus the canvas so keyboard input reaches the game inside the OS window.
+      window.addEventListener("load", function () {
+        var canvas = document.getElementById("canvas");
+        canvas.focus();
+        canvas.addEventListener("click", function () { canvas.focus(); });
+      });
+    </script>
+    <script type="text/javascript" src="websockets-doom.js"></script>
+  </body>
+</html>

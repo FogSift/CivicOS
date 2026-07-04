@@ -21,6 +21,7 @@ const DEFAULT_SIZES = {
   minesweeper: { w: 480, h: 560 },
   paint:       { w: 900, h: 650 },
   cognitive:   { w: 1000, h: 700 },
+  doom:        { w: 680, h: 460 },
 };
 
 // Drag emits MOVE per mousemove — debounce writes so IndexedDB isn't hammered.
