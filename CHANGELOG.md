@@ -11,6 +11,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **My Computer sidebar** — tasks now open real windows (Change a setting →
+  Control Panel, Network Places → Ops Center, My Documents → Vault) or show
+  an honest disabled state (Add/remove programs, Shared Documents); "View
+  system info" opens a real System Properties dialog (version, storage
+  backend, event count, browser)
 - **Control Panel: five real panels** — Sounds (bound to the same settings
   as the tray), Network (live connection status + FogSift adapter health
   check with a Refresh button), User Accounts (rename, reflected in the
