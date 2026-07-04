@@ -32,6 +32,26 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      // Sibling static assets the Workflow Engine's HTML references with
+      // root-relative paths (theme-init.js, white-rabbit.js, favicon.png) --
+      // without these, only /workflow-engine* itself falls into the rule
+      // above (prefix match), and these 404 or fall through to CivicOS's
+      // own SPA index.html.
+      '/theme-init.js': {
+        target: process.env.FOGSIFT_API_ORIGIN || 'http://localhost:5051',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/white-rabbit.js': {
+        target: process.env.FOGSIFT_API_ORIGIN || 'http://localhost:5051',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/favicon.png': {
+        target: process.env.FOGSIFT_API_ORIGIN || 'http://localhost:5051',
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
   define: {

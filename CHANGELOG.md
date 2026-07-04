@@ -9,6 +9,15 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Fixed
+
+- Cognitive Diagnostics: `theme-init.js`, `white-rabbit.js`, and `favicon.png`
+  were 404ing (or silently served CivicOS's own SPA HTML instead) because
+  Vite's `/workflow-engine` proxy rule is a prefix match — it coincidentally
+  swept up `workflow-engine.js`/`workflow-engine-styles.css` by name
+  collision but not these sibling assets. Added explicit proxy rules for
+  each.
+
 ### Added
 
 - **Cognitive Diagnostics** app (desktop icon + Start Menu) — first-class
