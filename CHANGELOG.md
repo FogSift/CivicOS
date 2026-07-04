@@ -11,6 +11,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Control Panel: five real panels** — Sounds (bound to the same settings
+  as the tray), Network (live connection status + FogSift adapter health
+  check with a Refresh button), User Accounts (rename, reflected in the
+  Start Menu), Security Center (storage backend, event count, session
+  user), and Appearance (aliases Display — no duplicate panel). Sidebar
+  links and Apply buttons that did nothing now show honest disabled states;
+  OK returns to the category grid.
 - **Live network and volume tray** — Wifi/WifiOff and Volume2/VolumeX icons
   now reflect real `navigator.onLine` state and the real volume setting;
   system tray clock now ticks every second instead of freezing at open
