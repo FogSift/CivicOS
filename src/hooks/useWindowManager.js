@@ -17,6 +17,8 @@ const DEFAULT_SIZES = {
   computer:  { w: 640, h: 460 },
   addlead:   { w: 480, h: 400 },
   events:    { w: 760, h: 500 },
+  solitaire:   { w: 820, h: 640 },
+  minesweeper: { w: 480, h: 560 },
 };
 
 // Drag emits MOVE per mousemove — debounce writes so IndexedDB isn't hammered.

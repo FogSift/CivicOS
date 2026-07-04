@@ -27,18 +27,21 @@ import SearchApp        from './apps/SearchApp.jsx';
 import ControlPanelApp  from './apps/ControlPanelApp.jsx';
 import HelpApp          from './apps/HelpApp.jsx';
 import EventViewerApp   from './apps/EventViewerApp.jsx';
+import IframeApp        from './apps/IframeApp.jsx';
 
 const APP_META = {
-  plaza:    { title: 'The Plaza — CivicOS',       appId: 'plaza'    },
-  builder:  { title: 'The Builder — CivicOS',     appId: 'builder'  },
-  vault:    { title: 'The Vault — CivicOS',        appId: 'vault'    },
-  ops:      { title: 'Ops Center — CivicOS',       appId: 'ops'      },
-  notepad:  { title: 'Notepad',                    appId: 'notepad'  },
-  computer: { title: 'My Computer',                appId: 'computer' },
-  search:   { title: 'Search Results',             appId: 'search'   },
-  settings: { title: 'Control Panel',              appId: 'settings' },
-  events:   { title: 'Event Viewer',               appId: 'events'   },
-  help:     { title: 'Help and Support',           appId: 'help'     },
+  plaza:       { title: 'The Plaza — CivicOS',       appId: 'plaza'       },
+  builder:     { title: 'The Builder — CivicOS',     appId: 'builder'     },
+  vault:       { title: 'The Vault — CivicOS',        appId: 'vault'       },
+  ops:         { title: 'Ops Center — CivicOS',       appId: 'ops'         },
+  notepad:     { title: 'Notepad',                    appId: 'notepad'     },
+  computer:    { title: 'My Computer',                appId: 'computer'   },
+  search:      { title: 'Search Results',             appId: 'search'     },
+  settings:    { title: 'Control Panel',              appId: 'settings'   },
+  events:      { title: 'Event Viewer',               appId: 'events'     },
+  help:        { title: 'Help and Support',           appId: 'help'       },
+  solitaire:   { title: 'Solitaire',                  appId: 'solitaire'  },
+  minesweeper: { title: 'Minesweeper',                appId: 'minesweeper'},
 };
 
 const SESSION_USER = 'System Administrator';
@@ -111,6 +114,10 @@ export default function App() {
         return <EventViewerApp />;
       case 'help':
         return <HelpApp />;
+      case 'solitaire':
+        return <IframeApp src="/apps/solitaire/index.html" title="Solitaire" />;
+      case 'minesweeper':
+        return <IframeApp src="/apps/minesweeper/index.html" title="Minesweeper" />;
       default:
         return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
     }

@@ -1,15 +1,17 @@
 import React from 'react';
-import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor } from 'lucide-react';
+import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, Spade, Bomb } from 'lucide-react';
 import OsWindow from './OsWindow.jsx';
 import Taskbar from './Taskbar.jsx';
 
 const DESKTOP_ICONS = [
-  { id: 'computer', label: 'My Computer',   Icon: Monitor },
-  { id: 'plaza',    label: 'The Plaza',      Icon: Radar },
-  { id: 'builder',  label: 'The Builder',    Icon: KanbanSquare },
-  { id: 'vault',    label: 'The Vault',      Icon: Database },
-  { id: 'ops',      label: 'Ops Center',     Icon: AppWindow },
-  { id: 'notepad',  label: 'Notepad',        Icon: FileText },
+  { id: 'computer',    label: 'My Computer',   Icon: Monitor },
+  { id: 'plaza',       label: 'The Plaza',      Icon: Radar },
+  { id: 'builder',     label: 'The Builder',    Icon: KanbanSquare },
+  { id: 'vault',       label: 'The Vault',      Icon: Database },
+  { id: 'ops',         label: 'Ops Center',     Icon: AppWindow },
+  { id: 'notepad',     label: 'Notepad',        Icon: FileText },
+  { id: 'solitaire',   label: 'Solitaire',      Icon: Spade },
+  { id: 'minesweeper', label: 'Minesweeper',    Icon: Bomb },
 ];
 
 function DesktopIcon({ id, label, Icon, onDoubleClick }) {

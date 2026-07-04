@@ -11,6 +11,13 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Solitaire and Minesweeper** — vendored from open source
+  ([jhatzimalis/solitaire](https://github.com/jhatzimalis/solitaire) MIT,
+  [sylhare/Minesweeper](https://github.com/sylhare/Minesweeper) GPL-3.0),
+  served as static apps under `public/apps/` and mounted via a new generic
+  `IframeApp` component; desktop icons + Start Menu entries. Source audited
+  in full before vendoring (see `THIRD_PARTY_LICENSES.md`).
+
 - **Kernel v0** (`src/kernel/`) — storage adapter with hand-rolled IndexedDB
   backend (`civicos-kernel` DB: `kv` snapshots + append-only `events` ledger)
   and in-memory fallback; the adapter interface is the contract for a future
