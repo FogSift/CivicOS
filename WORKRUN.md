@@ -644,6 +644,14 @@ Recommended next step if any of these move forward: repeat the WP13–15
 research pattern (search → verify license → verify web/WASM build exists or
 is feasible → verify asset distributability) before writing a build package.
 
+### WP17b — Non-game app candidates (backlog, not yet scoped)
+
+| App | Why it's clean | Notes |
+|---|---|---|
+| **Webamp** ([captbaritone/webamp](https://github.com/captbaritone/webamp)) | Code is MIT; trivially embeddable (script tag + div) | The "Winamp" name/skin/sample audio are Nullsoft trademark/property even though the code is MIT — brand the CivicOS app "Media Player" (already the planned name in `APPS.md` Tier 8), not "Winamp." Maps directly to that catalog entry. |
+| **v86** ([copy/v86](https://github.com/copy/v86)) | BSD license; boots free OSes (FreeDOS, Alpine Linux, ReactOS) with zero copyrighted data | Booting a tiny free Linux (Alpine) delivers a genuine working **Terminal** app (`APPS.md` Tier 8) with a real shell — no asset problem, unlike Diablo/DOS-game content. |
+| **js-dos** ([caiiiycuk/js-dos](https://github.com/caiiiycuk/js-dos)) | GPL-2.0, matches DOSBox's license; the engine itself ships no game data | Notable: its own docs mention running "big games like Diablo" — meaning the *original 1996 DOS Diablo* could run here if a user supplies their own legally-owned copy, a cleaner technical path than WP16's DevilutionX/OpenDiablo2 route since it runs the unmodified original binary. Same legal boundary applies: user-supplied data only, never vendored. |
+
 ---
 
 ## Final Acceptance (run once, after WP15)
