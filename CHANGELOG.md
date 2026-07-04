@@ -11,6 +11,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Kernel snapshot keys `settings` and `vault`, and ledger event types
+  `resource.move`, `settings.change`, `user.rename` — registered ahead of
+  the packages that use them
+- `ContextMenu` now supports `item.disabled` (muted, inert, `aria-disabled`)
+
 - **Solitaire and Minesweeper** — vendored from open source
   ([jhatzimalis/solitaire](https://github.com/jhatzimalis/solitaire) MIT,
   [sylhare/Minesweeper](https://github.com/sylhare/Minesweeper) GPL-3.0),

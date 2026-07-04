@@ -52,8 +52,14 @@ export default function ContextMenu({ x: initialX, y: initialY, onClose, items }
         ) : (
           <button
             key={i}
-            onClick={() => { item.onClick(); onClose(); }}
-            className={`w-full flex items-center space-x-2 px-4 py-1.5 text-xs text-left cursor-default hover:bg-[var(--color-accent-selected)] hover:text-white ${item.danger ? 'text-[var(--color-error-from)]' : 'text-[var(--color-text-primary)]'}`}
+            disabled={item.disabled}
+            aria-disabled={item.disabled ? 'true' : undefined}
+            onClick={() => { if (item.disabled) return; item.onClick?.(); onClose(); }}
+            className={`w-full flex items-center space-x-2 px-4 py-1.5 text-xs text-left ${
+              item.disabled
+                ? 'cursor-default text-[var(--color-text-muted)]'
+                : `cursor-default hover:bg-[var(--color-accent-selected)] hover:text-white ${item.danger ? 'text-[var(--color-error-from)]' : 'text-[var(--color-text-primary)]'}`
+            }`}
           >
             {item.icon && <span className="w-3 h-3 flex items-center justify-center">{item.icon}</span>}
             <span>{item.label}</span>

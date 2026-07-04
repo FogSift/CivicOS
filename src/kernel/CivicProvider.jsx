@@ -15,7 +15,7 @@ const KernelContext = createContext(null);
 // synchronously in useState/useReducer initializers.
 const MIN_BOOT_MS = 700;
 
-const SNAPSHOT_KEYS = ['resources', 'session', 'windows', 'notepad'];
+const SNAPSHOT_KEYS = ['resources', 'session', 'windows', 'notepad', 'settings', 'vault'];
 
 // Envelope check: corrupt, missing, or wrong-version snapshots yield
 // undefined, which consumers translate to their seed state.

@@ -19,6 +19,11 @@ export const EVENT_TYPES = {
   'resource.commit':  { label: 'Resource', color: '#3a7a5c' },
   'resource.discard': { label: 'Resource', color: '#c2410c' },
   'resource.add':     { label: 'Resource', color: '#3a7a5c' },
+  'resource.move':    { label: 'Resource', color: '#3a7a5c' },
+  'settings.change':  { label: 'Settings', color: '#1e76a2' },
+  'user.rename':      { label: 'Session',  color: '#2a5cce' },
+  'notepad.new':      { label: 'Notepad',  color: '#777777' },
+  'notepad.save':     { label: 'Notepad',  color: '#777777' },
 };
 
 export function createEventLog(storage) {
