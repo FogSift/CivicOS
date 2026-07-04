@@ -10,6 +10,8 @@ import { useKernel }         from './kernel/CivicProvider.jsx';
 import { useResources }      from './hooks/useResources.js';
 import { useTheme }          from './hooks/useTheme.js';
 import { useWindowManager }  from './hooks/useWindowManager.js';
+import { useSettings }       from './hooks/useSettings.js';
+import { playOpenBeep, playCloseBeep } from './os/sounds.js';
 import AuthScreen            from './components/AuthScreen.jsx';
 import AddNodeModal          from './components/AddNodeModal.jsx';
 import Desktop               from './os/Desktop.jsx';
@@ -70,7 +72,16 @@ export default function App() {
     logEvent('session.logoff', {});
   }, [saveSnapshot, logEvent, user]);
 
+  const handleRenameUser = useCallback((nextName) => {
+    const trimmed = nextName.trim();
+    if (!trimmed || trimmed === user) return;
+    logEvent('user.rename', { from: user, to: trimmed });
+    setUser(trimmed);
+    saveSnapshot('session', { authenticated: true, user: trimmed });
+  }, [user, logEvent, saveSnapshot]);
+
   const { theme, setTheme } = useTheme();
+  const { settings, updateSettings } = useSettings();
   const { resources, handleVote, commitLead, discardLead, handleSaveNode } = useResources();
   const {
     windows,
@@ -87,7 +98,13 @@ export default function App() {
     const meta = APP_META[appId];
     if (!meta) return;
     openWindow(appId, meta.appId, meta.title);
-  }, [openWindow]);
+    if (settings.uiSounds) playOpenBeep(settings.volume);
+  }, [openWindow, settings]);
+
+  const handleCloseWindow = useCallback((id) => {
+    if (settings.uiSounds) playCloseBeep(settings.volume);
+    closeWindow(id);
+  }, [closeWindow, settings]);
 
   const renderApp = useCallback((win) => {
     switch (win.appId) {
@@ -108,13 +125,22 @@ export default function App() {
       case 'ops':
         return <OpsCenterView />;
       case 'notepad':
-        return <NotepadApp onClose={() => closeWindow(win.id)} />;
+        return <NotepadApp onClose={() => handleCloseWindow(win.id)} />;
       case 'computer':
         return <MyComputerApp onOpenApp={openApp} />;
       case 'search':
         return <SearchApp onOpenApp={openApp} />;
       case 'settings':
-        return <ControlPanelApp theme={theme} setTheme={setTheme} />;
+        return (
+          <ControlPanelApp
+            theme={theme}
+            setTheme={setTheme}
+            settings={settings}
+            updateSettings={updateSettings}
+            user={user}
+            onRenameUser={handleRenameUser}
+          />
+        );
       case 'events':
         return <EventViewerApp />;
       case 'help':
@@ -128,7 +154,7 @@ export default function App() {
       default:
         return <div style={{ padding: 8 }}>Unknown app: {win.appId}</div>;
     }
-  }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme, closeWindow]);
+  }, [resources, handleVote, commitLead, discardLead, openApp, theme, setTheme, handleCloseWindow, settings, updateSettings, user, handleRenameUser]);
 
   if (!isAuthenticated) {
     return <AuthScreen onAuth={handleLogon} />;
@@ -146,7 +172,7 @@ export default function App() {
       <Desktop
         windows={windows}
         onOpenApp={openApp}
-        onCloseWindow={closeWindow}
+        onCloseWindow={handleCloseWindow}
         onMinimizeWindow={minimize}
         onMaximizeWindow={maximize}
         onFocusWindow={focusWindow}
@@ -157,6 +183,8 @@ export default function App() {
         theme={theme}
         setTheme={setTheme}
         username={user}
+        settings={settings}
+        updateSettings={updateSettings}
       />
     </>
   );

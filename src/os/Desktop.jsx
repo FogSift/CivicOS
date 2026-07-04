@@ -80,6 +80,8 @@ export default function Desktop({
   theme,
   setTheme,
   username,
+  settings,
+  updateSettings,
 }) {
   return (
     <div
@@ -138,6 +140,8 @@ export default function Desktop({
         theme={theme}
         setTheme={setTheme}
         username={username}
+        settings={settings}
+        updateSettings={updateSettings}
       />
     </div>
   );

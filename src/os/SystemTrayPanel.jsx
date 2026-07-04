@@ -1,8 +1,16 @@
-import React, { useEffect } from 'react';
-import { Wifi, Volume2, Sun, Moon, Monitor } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Wifi, WifiOff, Volume2, Sun, Moon, Monitor } from 'lucide-react';
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js';
 
-export default function SystemTrayPanel({ onClose, theme, setTheme, windowCount, onLogOff }) {
-  const now = new Date();
+export default function SystemTrayPanel({ onClose, theme, setTheme, windowCount, onLogOff, settings, updateSettings }) {
+  const [now, setNow] = useState(() => new Date());
+  const online = useOnlineStatus();
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+
   const dateStr = now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
@@ -57,12 +65,13 @@ export default function SystemTrayPanel({ onClose, theme, setTheme, windowCount,
       </div>
 
       {/* Status rows */}
-      {row(<Wifi size={14} />, 'Network', 'Connected', (
-        <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#4caf50', boxShadow: '0 0 4px #4caf50' }} />
+      {row(online ? <Wifi size={14} /> : <WifiOff size={14} />, 'Network', online ? 'Connected' : 'Offline', (
+        <div style={{ width: 8, height: 8, borderRadius: '50%', background: online ? '#4caf50' : '#e81123', boxShadow: `0 0 4px ${online ? '#4caf50' : '#e81123'}` }} />
       ))}
-      {row(<Volume2 size={14} />, 'Volume', '75%', (
+      {row(<Volume2 size={14} />, 'Volume', settings?.uiSounds ? `${settings.volume}%` : 'Muted', (
         <input
-          type="range" min={0} max={100} defaultValue={75}
+          type="range" min={0} max={100} value={settings?.volume ?? 75}
+          onChange={e => updateSettings?.({ volume: Number(e.target.value) })}
           style={{ width: 60, accentColor: '#5090e8' }}
           onClick={e => e.stopPropagation()}
         />

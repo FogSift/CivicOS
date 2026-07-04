@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Monitor, Wifi, Volume2 } from 'lucide-react';
+import { Monitor, Wifi, WifiOff, Volume2, VolumeX } from 'lucide-react';
 import StartMenu from './StartMenu.jsx';
 import SystemTrayPanel from './SystemTrayPanel.jsx';
+import { useOnlineStatus } from '../hooks/useOnlineStatus.js';
 
 function Clock({ onClick }) {
   const [time, setTime] = useState(() => new Date());
@@ -31,9 +32,11 @@ function Clock({ onClick }) {
   );
 }
 
-export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpenApp, onLogOff, theme, setTheme, username }) {
+export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpenApp, onLogOff, theme, setTheme, username, settings, updateSettings }) {
   const [menuOpen,  setMenuOpen]  = useState(false);
   const [trayOpen,  setTrayOpen]  = useState(false);
+  const online = useOnlineStatus();
+  const muted = !settings?.uiSounds || settings?.volume === 0;
 
   const handleStartClick = (e) => {
     e.stopPropagation();
@@ -173,8 +176,24 @@ export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpe
         }}
       >
         {/* Tray icons */}
-        <Wifi   size={12} style={{ color: 'rgba(255,255,255,0.7)' }} />
-        <Volume2 size={12} style={{ color: 'rgba(255,255,255,0.7)' }} />
+        <button
+          onClick={handleTrayClick}
+          title={online ? 'Connected' : 'Offline'}
+          style={{ background: 'none', border: 'none', boxShadow: 'none', padding: 0, display: 'flex', cursor: 'default' }}
+        >
+          {online
+            ? <Wifi size={12} style={{ color: 'rgba(255,255,255,0.7)' }} />
+            : <WifiOff size={12} style={{ color: 'rgba(255,120,120,0.85)' }} />}
+        </button>
+        <button
+          onClick={handleTrayClick}
+          title={muted ? 'Muted' : `Volume ${settings?.volume ?? 75}%`}
+          style={{ background: 'none', border: 'none', boxShadow: 'none', padding: 0, display: 'flex', cursor: 'default' }}
+        >
+          {muted
+            ? <VolumeX size={12} style={{ color: 'rgba(255,255,255,0.7)' }} />
+            : <Volume2 size={12} style={{ color: 'rgba(255,255,255,0.7)' }} />}
+        </button>
 
         {/* Clickable clock */}
         <Clock onClick={handleTrayClick} />
@@ -187,6 +206,8 @@ export default function Taskbar({ windows, onRestoreWindow, onFocusWindow, onOpe
             setTheme={setTheme}
             windowCount={windows.filter(w => !w.minimized).length}
             onLogOff={onLogOff}
+            settings={settings}
+            updateSettings={updateSettings}
           />
         )}
       </div>

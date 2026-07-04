@@ -11,6 +11,11 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Live network and volume tray** — Wifi/WifiOff and Volume2/VolumeX icons
+  now reflect real `navigator.onLine` state and the real volume setting;
+  system tray clock now ticks every second instead of freezing at open
+  time; volume slider and mute state persist via a new `useSettings` hook
+  and drive real WebAudio open/close beeps on every window
 - **AuthScreen logon identity** — the email field now drives who you log on
   as (Start Menu header, ledger `session.logon`/`user.rename` events);
   clicking the user tile logs on as System Administrator; Cancel clears the
