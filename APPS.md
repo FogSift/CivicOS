@@ -38,6 +38,14 @@ Desktop, window manager, Taskbar, Start Menu, System Tray, themes — shipped in
 the June 2026 rebuild. Plus five working accessory apps: **Search**, **Control
 Panel**, **Help**, **Notepad**, **My Computer**, and the **Ops Center**.
 
+Also shipped: **NovaSystem**, the Nova Process on the desktop. Type a decision,
+three 8-bit agents run it through UNPACK, ANALYZE, SYNTHESIZE, and you get back
+a list of asks with an owner on each. It runs entirely locally with no model
+call, which makes it the honest first half of the AI Gateway story: the phases,
+the lenses, and the output shape are already in place, so wiring port 5052 in
+later is a swap of one function, not a new app. Runs pass into the ledger as
+`nova.run` events.
+
 ---
 
 ## Tier 1 — Civic Core (the institution itself)

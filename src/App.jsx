@@ -29,6 +29,7 @@ import SearchApp        from './apps/SearchApp.jsx';
 import ControlPanelApp  from './apps/ControlPanelApp.jsx';
 import HelpApp          from './apps/HelpApp.jsx';
 import EventViewerApp   from './apps/EventViewerApp.jsx';
+import NovaSystemApp    from './apps/NovaSystemApp.jsx';
 import IframeApp        from './apps/IframeApp.jsx';
 
 const APP_META = {
@@ -41,6 +42,7 @@ const APP_META = {
   search:      { title: 'Search Results',             appId: 'search'     },
   settings:    { title: 'Control Panel',              appId: 'settings'   },
   events:      { title: 'Event Viewer',               appId: 'events'     },
+  nova:        { title: 'NovaSystem: Nova Process',   appId: 'nova'       },
   help:        { title: 'Help and Support',           appId: 'help'       },
   solitaire:   { title: 'Solitaire',                  appId: 'solitaire'  },
   minesweeper: { title: 'Minesweeper',                appId: 'minesweeper'},
@@ -145,6 +147,8 @@ export default function App() {
         );
       case 'events':
         return <EventViewerApp />;
+      case 'nova':
+        return <NovaSystemApp />;
       case 'help':
         return <HelpApp />;
       case 'solitaire':

@@ -11,6 +11,41 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **NovaSystem**: the Nova Process as a desktop app (desktop icon + Start
+  Menu). Type a decision, watch three 8-bit agents work it through UNPACK,
+  ANALYZE, SYNTHESIZE, and get back a list of asks with an owner on each.
+  - **DCE** reads scope and sequence, **CAE** reads what breaks, **SME** reads
+    what the work needs. Each speaks in turn on a CRT stage.
+  - The reasoning is in `src/apps/nova/novaProcess.js` as pure functions:
+    it sorts your text into requirements, unknowns, risks, timing, cost, and
+    stakeholders, then runs three fixed lenses over that structure. Same input
+    always gives the same output.
+  - **No model call and no network.** The status line says so rather than
+    implying an agent is thinking. `runNovaProcess` is the seam for the local
+    AI gateway in APPS.md when it exists.
+  - The specification score measures how completely the problem is *stated*,
+    not how good the answer is, and the UI says that too. A high score on a
+    bad idea is still a bad idea.
+  - **Save to ledger** writes a `nova.run` event, so a Nova run shows up in the
+    Event Viewer alongside every other civic action.
+  - **Agent journal bridge** (`src/apps/nova/journalBridge.js`). SimpleAgentOS
+    and NovaSystem share one PocketBase collection so either can ask what the
+    other learned; CivicOS was the one system with no way in, which is why a
+    cross-project view of that journal only ever showed two projects. Saving a
+    run now also mirrors it there, and the view shows three.
+    - **Off unless `VITE_NOVA_JOURNAL=1`.** A civic desktop should not quietly
+      POST what a user typed to a local service they did not ask to run.
+    - Strictly after the ledger write, never awaited, and it cannot throw. The
+      ledger stays the record; the journal is an index onto it. If the mirror
+      fails the status line says so rather than hiding it, because a silent
+      mirror failure is how a memory ends up with a hole nobody notices.
+    - The status line no longer claims "no network" when the bridge is on. It
+      still says there is no model call, because there still isn't one.
+  - Agent sprites are 4-frame idle loops generated with pixellab.ai, played by
+    stepping `background-position-x`. If a spritesheet is missing the app falls
+    back to a CSS drawn avatar, so a missing asset never breaks the window.
+    All motion is disabled under `prefers-reduced-motion`.
+
 - **DOOM** — playable from the desktop (icon + Start Menu), single-player,
   no network required. Vendored [cloudflare/doom-wasm](https://github.com/cloudflare/doom-wasm)
   (Chocolate Doom compiled to WebAssembly, GPL) with the id Software

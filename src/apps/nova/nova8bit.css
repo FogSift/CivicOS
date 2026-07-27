@@ -1,0 +1,391 @@
+/*
+ * @fileId 7c5a1b90-2e44-4d18-8c31-6ab5f0e29d77
+ * @module CivicOS/src/apps/nova/nova8bit.css
+ * @description 8-bit presentation layer for the NovaSystem app.
+ *
+ * Everything here is CSS. No canvas, no animation library, no images beyond
+ * the agent spritesheets. The look is built from four cheap tricks that the
+ * era actually used: nearest-neighbour scaling, stepped timing functions,
+ * a four color ramp, and hard offset shadows instead of blurs.
+ *
+ * Motion respects prefers-reduced-motion at the bottom of this file. Sprites
+ * hold their first frame, banners appear without sliding, nothing pulses.
+ */
+
+.nova8 {
+  --nova-ink:    #0b0f1a;
+  --nova-panel:  #16203a;
+  --nova-panel2: #223055;
+  --nova-line:   #4a6ba8;
+  --nova-text:   #d8e3ff;
+  --nova-dim:    #7e93c4;
+  --nova-green:  #57d97a;
+  --nova-amber:  #ffcc3d;
+  --nova-red:    #ff5f56;
+  --nova-cyan:   #5ad8ff;
+
+  font-family: 'Courier New', ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--nova-text);
+  background: var(--nova-ink);
+  image-rendering: pixelated;
+}
+
+/* Every pixel surface scales without smoothing. */
+.nova8 img,
+.nova8 .nova8-sprite {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* --- CRT ---------------------------------------------------------------- */
+
+.nova8-crt {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Scanlines. 2px period is the smallest that survives a non-retina display. */
+.nova8-crt::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.16) 0px,
+    rgba(0, 0, 0, 0.16) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Corner vignette. Sells the glass more than any curvature filter would. */
+.nova8-crt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 6;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+}
+
+/* --- Sprite stage ------------------------------------------------------- */
+
+/* Sprite cell size. The generated sheets are 68px; 2x is where pixel art stops
+   looking like a thumbnail and starts reading as a character. */
+.nova8 { --nova-cell: 136px; }
+
+.nova8-stage {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 10px 10px 0;
+  min-height: 210px;
+  background:
+    linear-gradient(to bottom, #0d1428 0%, #16203a 68%, #101a30 68%, #0b1226 100%);
+}
+
+/* Ground line the agents stand on. */
+.nova8-stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 42px;
+  height: 2px;
+  background: var(--nova-line);
+  opacity: 0.5;
+}
+
+.nova8-agent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 33%;
+  transition: filter 120ms steps(2);
+}
+
+/* The agent whose turn it is. Steps, not a smooth fade, so it reads as 8-bit. */
+.nova8-agent.is-idle    { filter: brightness(0.55) saturate(0.5); }
+.nova8-agent.is-active  { filter: brightness(1.15); }
+.nova8-agent.is-done    { filter: brightness(0.85); }
+
+.nova8-sprite {
+  width: var(--nova-cell);
+  height: var(--nova-cell);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: auto var(--nova-cell);
+}
+
+/* Spritesheet playback. The frame count is set inline per sheet, because
+   only the component knows how many frames the export produced. */
+.nova8-sprite.is-playing {
+  animation-name: nova8-frames;
+  animation-timing-function: steps(var(--nova-frames, 8));
+  animation-iteration-count: infinite;
+  animation-duration: var(--nova-dur, 900ms);
+}
+
+@keyframes nova8-frames {
+  from { background-position-x: 0; }
+  to   { background-position-x: calc(-1 * var(--nova-cell) * var(--nova-frames, 8)); }
+}
+
+/* Fallback avatar when a spritesheet has not been generated yet. Hand drawn
+   with box-shadow pixels: one element, no image, still unmistakably 8-bit. */
+.nova8-fallback {
+  width: var(--nova-cell);
+  height: var(--nova-cell);
+  display: grid;
+  place-items: center;
+  /* The box-shadow art is drawn on a 4px grid sized for the 68px cell, so it
+     scales with the cell rather than being redrawn at every size. */
+  transform: scale(calc(var(--nova-cell) / 68));
+}
+
+.nova8-fallback i {
+  display: block;
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  box-shadow:
+    /* head */
+    16px  8px 0 0 var(--pc, #8899cc), 20px  8px 0 0 var(--pc, #8899cc),
+    24px  8px 0 0 var(--pc, #8899cc),
+    12px 12px 0 0 var(--pc, #8899cc), 16px 12px 0 0 #ffffff,
+    20px 12px 0 0 var(--pc, #8899cc), 24px 12px 0 0 #ffffff,
+    28px 12px 0 0 var(--pc, #8899cc),
+    12px 16px 0 0 var(--pc, #8899cc), 16px 16px 0 0 var(--pc, #8899cc),
+    20px 16px 0 0 var(--pc, #8899cc), 24px 16px 0 0 var(--pc, #8899cc),
+    28px 16px 0 0 var(--pc, #8899cc),
+    16px 20px 0 0 var(--pc, #8899cc), 20px 20px 0 0 var(--pc, #8899cc),
+    24px 20px 0 0 var(--pc, #8899cc),
+    /* body */
+    12px 24px 0 0 var(--pc, #8899cc), 16px 24px 0 0 var(--pc, #8899cc),
+    20px 24px 0 0 var(--pc, #8899cc), 24px 24px 0 0 var(--pc, #8899cc),
+    28px 24px 0 0 var(--pc, #8899cc),
+     8px 28px 0 0 var(--pc, #8899cc), 12px 28px 0 0 var(--pc, #8899cc),
+    20px 28px 0 0 #ffffff,
+    28px 28px 0 0 var(--pc, #8899cc), 32px 28px 0 0 var(--pc, #8899cc),
+    12px 32px 0 0 var(--pc, #8899cc), 20px 32px 0 0 var(--pc, #8899cc),
+    28px 32px 0 0 var(--pc, #8899cc),
+    /* legs */
+    12px 36px 0 0 var(--pc, #8899cc), 28px 36px 0 0 var(--pc, #8899cc),
+    12px 40px 0 0 var(--pc, #8899cc), 28px 40px 0 0 var(--pc, #8899cc);
+}
+
+/* Two frame bob. The whole animation vocabulary of a 1987 idle pose. */
+.nova8-agent.is-active .nova8-fallback i,
+.nova8-agent.is-active .nova8-sprite.no-sheet {
+  animation: nova8-bob 620ms steps(1) infinite;
+}
+
+@keyframes nova8-bob {
+  0%, 49%   { transform: translateY(0); }
+  50%, 100% { transform: translateY(-3px); }
+}
+
+/* Speech bubble, square cornered, hard shadow. */
+.nova8-bubble {
+  position: relative;
+  max-width: 150px;
+  margin-bottom: 6px;
+  padding: 5px 7px;
+  background: #f4f6ff;
+  color: #101828;
+  border: 2px solid #101828;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55);
+  font-size: 10px;
+  line-height: 1.4;
+  animation: nova8-pop 140ms steps(3);
+}
+
+.nova8-bubble::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #101828;
+}
+
+@keyframes nova8-pop {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+.nova8-nameplate {
+  padding: 1px 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+}
+
+/* --- Phase banner ------------------------------------------------------- */
+
+.nova8-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: var(--nova-panel2);
+  border-top: 2px solid var(--nova-line);
+  border-bottom: 2px solid var(--nova-line);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--nova-amber);
+  animation: nova8-slam 180ms steps(4);
+}
+
+@keyframes nova8-slam {
+  from { transform: translateX(-14px); opacity: 0; }
+  to   { transform: translateX(0);      opacity: 1; }
+}
+
+/* --- Pixel progress bar ------------------------------------------------- */
+
+.nova8-bar {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--nova-ink);
+  border: 2px solid var(--nova-line);
+}
+
+.nova8-bar span {
+  flex: 1;
+  height: 8px;
+  background: var(--nova-panel2);
+}
+
+.nova8-bar span.on {
+  background: var(--nova-green);
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.nova8-bar span.pending {
+  animation: nova8-blink 500ms steps(1) infinite;
+}
+
+@keyframes nova8-blink {
+  0%, 49%   { background: var(--nova-amber); }
+  50%, 100% { background: var(--nova-panel2); }
+}
+
+/* --- Log ---------------------------------------------------------------- */
+
+.nova8-log {
+  flex: 1 1 auto;
+  min-height: 140px;
+  overflow-y: auto;
+  padding: 8px 10px;
+  background: var(--nova-ink);
+}
+
+.nova8-row {
+  margin-bottom: 7px;
+  padding-left: 8px;
+  border-left: 3px solid var(--nova-line);
+  animation: nova8-in 160ms steps(3);
+}
+
+@keyframes nova8-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.nova8-row b { color: var(--nova-cyan); }
+.nova8-row .why { color: var(--nova-dim); }
+.nova8-row .ask { color: var(--nova-amber); }
+
+.nova8-caret::after {
+  content: '_';
+  animation: nova8-caret 640ms steps(1) infinite;
+}
+
+@keyframes nova8-caret {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* --- Controls ----------------------------------------------------------- */
+
+.nova8-btn {
+  padding: 4px 12px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--nova-ink);
+  background: var(--nova-green);
+  border: 2px solid var(--nova-ink);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+}
+
+.nova8-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.nova8-btn:disabled {
+  background: var(--nova-panel2);
+  color: var(--nova-dim);
+  cursor: default;
+  transform: none;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4);
+}
+
+.nova8-btn.ghost {
+  background: var(--nova-panel2);
+  color: var(--nova-text);
+}
+
+.nova8-input {
+  width: 100%;
+  padding: 6px 7px;
+  font-family: inherit;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--nova-text);
+  background: #0a1024;
+  border: 2px solid var(--nova-line);
+  resize: none;
+}
+
+.nova8-input:focus {
+  outline: none;
+  border-color: var(--nova-cyan);
+}
+
+/* --- Motion sensitivity ------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .nova8 *,
+  .nova8 *::before,
+  .nova8 *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  /* Sprites hold frame 0 rather than freezing mid stride. */
+  .nova8-sprite.is-playing { background-position-x: 0; }
+}

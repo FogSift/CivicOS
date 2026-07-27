@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, Spade, Bomb, Paintbrush, Brain, Skull } from 'lucide-react';
+import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, Spade, Bomb, Paintbrush, Brain, Skull, Cpu } from 'lucide-react';
 import OsWindow from './OsWindow.jsx';
 import Taskbar from './Taskbar.jsx';
 
@@ -9,6 +9,7 @@ const DESKTOP_ICONS = [
   { id: 'builder',     label: 'The Builder',    Icon: KanbanSquare },
   { id: 'vault',       label: 'The Vault',      Icon: Database },
   { id: 'ops',         label: 'Ops Center',     Icon: AppWindow },
+  { id: 'nova',        label: 'NovaSystem',     Icon: Cpu },
   { id: 'notepad',     label: 'Notepad',        Icon: FileText },
   { id: 'solitaire',   label: 'Solitaire',      Icon: Spade },
   { id: 'minesweeper', label: 'Minesweeper',    Icon: Bomb },

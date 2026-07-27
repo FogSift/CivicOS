@@ -24,6 +24,7 @@ export const EVENT_TYPES = {
   'user.rename':      { label: 'Session',  color: '#2a5cce' },
   'notepad.new':      { label: 'Notepad',  color: '#777777' },
   'notepad.save':     { label: 'Notepad',  color: '#777777' },
+  'nova.run':         { label: 'Nova',     color: '#57d97a' },
 };
 
 export function createEventLog(storage) {

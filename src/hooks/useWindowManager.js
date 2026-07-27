@@ -17,6 +17,7 @@ const DEFAULT_SIZES = {
   computer:  { w: 640, h: 460 },
   addlead:   { w: 480, h: 400 },
   events:    { w: 760, h: 500 },
+  nova:      { w: 780, h: 700 },
   solitaire:   { w: 820, h: 640 },
   minesweeper: { w: 480, h: 560 },
   paint:       { w: 900, h: 650 },

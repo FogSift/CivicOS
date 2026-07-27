@@ -1,11 +1,12 @@
 import React from 'react';
-import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, LogOut, Settings, HelpCircle, Search, ScrollText, Spade, Bomb, Paintbrush, Brain, Skull } from 'lucide-react';
+import { Radar, KanbanSquare, Database, AppWindow, FileText, Monitor, LogOut, Settings, HelpCircle, Search, ScrollText, Spade, Bomb, Paintbrush, Brain, Skull, Cpu } from 'lucide-react';
 
 const PINNED_APPS = [
   { id: 'plaza',       label: 'The Plaza',    sub: 'Civic Discovery',  Icon: Radar },
   { id: 'builder',     label: 'The Builder',  sub: 'Grant Pipeline',   Icon: KanbanSquare },
   { id: 'vault',       label: 'The Vault',    sub: 'Documents',        Icon: Database },
   { id: 'ops',         label: 'Ops Center',   sub: 'System Registry',  Icon: AppWindow },
+  { id: 'nova',        label: 'NovaSystem',   sub: 'Nova Process',     Icon: Cpu },
   { id: 'notepad',     label: 'Notepad',      sub: 'Text Editor',      Icon: FileText },
   { id: 'solitaire',   label: 'Solitaire',    sub: 'Card Game',        Icon: Spade },
   { id: 'minesweeper', label: 'Minesweeper',  sub: 'Puzzle Game',      Icon: Bomb },
